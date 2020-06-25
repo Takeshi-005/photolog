@@ -15,7 +15,9 @@ type Props = {
 // @ Component
 const Component: React.FC<Props> = props => (
   <div className={props.className}>
-    {props.days.map(day => <div key={day}>{day}</div>)}
+    {props.days.map(day => (
+      <div key={day}>{day}</div>
+    ))}
   </div>
 );
 

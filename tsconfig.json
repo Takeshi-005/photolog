@@ -19,7 +19,8 @@
     "jsx": "preserve",
     "outDir": "build",
     "resolveJsonModule": true,
-    "baseUrl":"./src"
+    "baseUrl":"./src",
+    "rootDirs": ["src", "stories"]
   },
   "include": [
     "src"

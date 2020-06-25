@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import moment from 'moment';
 import DayOfWeek from './DayOfWeek';
 import DaysElement from './DaysElement';
+import Modal from './Modal';
+import useModal, { State } from 'useModal';
 import { COLOR } from 'styles/style';
 import range from 'utils/range';
 
@@ -12,6 +14,11 @@ import range from 'utils/range';
 type ContainerProps = { className?: string };
 type Props = ContainerProps & {
   dates: number[][];
+  currents: {
+    year: number;
+    month: number;
+  };
+  modalState: State;
 };
 
 // ______________________________________________________
@@ -22,6 +29,7 @@ const Container: React.FC<ContainerProps> = props => {
     year: moment().year(),
     month: moment().month()
   });
+  const { openModal, closeModal, modalState } = useModal(null, true);
   moment.locale('ja', {
     weekdays: [
       '日曜日',
@@ -53,46 +61,66 @@ const Container: React.FC<ContainerProps> = props => {
     range(7).map(dayIndex => {
       const i = 7 * weekIndex + dayIndex - firstWeekDay;
       const count = 7 * weekIndex + (dayIndex + 1);
-      console.log(count);
       if (weekIndex === 0 && dayIndex < firstWeekDay) {
         return lastMonthDay - firstWeekDay + dayIndex + 1;
       } else if (numOfMonth < count) {
         return count - numOfMonth;
       }
-      return daysOfMonth[i];
-    }
-  ));
 
-  return <StyledComponent {...props} dates={data} />;
+      return daysOfMonth[i];
+    })
+  );
+
+  return (
+    <StyledComponent
+      {...props}
+      dates={data}
+      currents={currents}
+      modalState={modalState}
+    />
+  );
 };
 
 //______________________________________________________
 //
 // @ Component
 const Component: React.FC<Props> = props => (
-  <div className={props.className}>
-    <h1></h1>
-    <DayOfWeek days={['日', '月', '火', '水', '木', '金', '土']} />
-    <div className="container">
-      {props.dates.map((days, i) => (
-        <DaysElement key={i} days={days} />
-      ))}
+  <>
+    <div className={props.className}>
+      <h1>
+        {props.currents.year}年{props.currents.month}月
+      </h1>
+      <div className="wrapper">
+        <div className="inner">
+          <DayOfWeek days={['日', '月', '火', '水', '木', '金', '土']} />
+          {props.dates.map((days, i) => (
+            <DaysElement key={i} days={days} />
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
+    {props.modalState.isOpen && <Modal modalState={props.modalState} />}
+  </>
 );
 
 //______________________________________________________
 //
 // @ StyledComponent
 const StyledComponent = styled(Component)`
-  border: 1px solid ${COLOR.border};
-  height: calc(100vh - 64px);
+  > h1 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  > .wrapper {
+    border: 1px solid ${COLOR.border};
+    height: calc(100vh - 80px);
 
-  > .container {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 0%;
-    height: 100%;
+    > .inner {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 0%;
+      height: 100%;
+    }
   }
 `;
 

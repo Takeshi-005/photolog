@@ -3,8 +3,9 @@ export const COLOR = {
   link: '#f60',
   emphasis: '#ff0',
   border: '#ccc',
-  current: '#fb7f77',
-  text: '#222'
+  primary: '#e91e63',
+  text: '#222',
+  unselected: '#ccc'
 };
 
 export const DEVICE = {
