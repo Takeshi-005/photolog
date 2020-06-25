@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { State } from 'useModal';
+import { State } from 'hooks/useModal';
 import IconInput from 'components/presentational/molecules/FlexInput';
 import Input from 'components/presentational/atoms/Input';
+import Button from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
@@ -13,11 +14,13 @@ import SubjectIcon from '@material-ui/icons/Subject';
 type ContainerProps = {
   className?: string;
   modalState: State;
+  closeModal: () => void;
 };
 type Props = ContainerProps & {
   form: Form;
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 enum FormName {
@@ -63,12 +66,18 @@ const Container: React.FC<ContainerProps> = props => {
     });
   }, []);
 
+  const handleSubmit = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {},
+    []
+  );
+
   return (
     <StyledComponent
       {...props}
       form={values}
       handleChange={handleChange}
       handleDelete={handleDelete}
+      handleSubmit={handleSubmit}
     />
   );
 };
@@ -110,7 +119,7 @@ const Component: React.FC<Props> = props => (
         </IconInput>
         <IconInput
           value={props.form.description}
-          placeholder="詳細を追加"
+          placeholder="説明を追加"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={FormName.description}
@@ -119,8 +128,16 @@ const Component: React.FC<Props> = props => (
           <SubjectIcon />
         </IconInput>
       </div>
+      <div className="bottom">
+        <Button
+          text="保存する"
+          types="primary"
+          style={{ width: '100px' }}
+          handleClick={props.handleSubmit}
+        />
+      </div>
     </div>
-    <div className="overlay"></div>
+    <div className="overlay" onClick={props.closeModal}></div>
   </div>
 );
 
@@ -159,6 +176,11 @@ const StyledComponent = styled(Component)`
 
     > .inner {
       margin-top: 16px;
+    }
+
+    > .bottom {
+      margin-top: 8px;
+      text-align: right;
     }
   }
 `;

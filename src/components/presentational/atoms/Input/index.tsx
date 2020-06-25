@@ -10,7 +10,7 @@ export type Modifier = 'big' | 'flat';
 
 export type Props = {
   value?: string;
-  name?: string;
+  name: string;
   handleChange?: (name: string, value: string) => void;
   handleDelete?: (name: string) => void;
   placeholder?: string;
@@ -27,21 +27,26 @@ export type Props = {
 //
 // @ Component
 export const Component: React.FC<Props> = React.memo(
-  (props, { handleChange = () => {}, handleDelete = () => {} }) => (
+  props => (
     <StyledComponent {...props}>
       <input
         type="text"
         maxLength={props.maxlength}
         placeholder={props.placeholder}
         value={props.value}
-        onChange={e => handleChange(props.name, e.currentTarget.value)}
+        onChange={e =>
+          props.handleChange &&
+          props.handleChange(props.name ?? '', e.currentTarget.value)
+        }
       />
       {props.modifier !== 'flat' && <div className="focus"></div>}
-      {props.name && (
-        <span onClick={() => handleDelete(props.name ?? '')}>
-          <CloseIcon />
-        </span>
-      )}
+      <span
+        onClick={() =>
+          props.handleDelete && props.handleDelete(props.name ?? '')
+        }
+      >
+        <CloseIcon />
+      </span>
     </StyledComponent>
   ),
   (p, n) => p.value === n.value

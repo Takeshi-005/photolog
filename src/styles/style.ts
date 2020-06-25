@@ -11,3 +11,5 @@ export const COLOR = {
 export const DEVICE = {
   mobile: `(max-width: 760px)`
 };
+
+export const TRANSITION = 'all 0.25s ease';

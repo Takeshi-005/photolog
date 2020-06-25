@@ -8,6 +8,7 @@ import { COLOR } from 'styles/style';
 type Props = {
   className?: string;
   days: number[];
+  handleClick: () => void;
 };
 
 //______________________________________________________
@@ -16,7 +17,9 @@ type Props = {
 const Component: React.FC<Props> = props => (
   <div className={props.className}>
     {props.days.map(day => (
-      <div key={day}>{day}</div>
+      <div key={day} onClick={props.handleClick}>
+        {day}
+      </div>
     ))}
   </div>
 );
