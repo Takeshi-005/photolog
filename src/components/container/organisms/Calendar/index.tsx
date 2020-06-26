@@ -24,13 +24,14 @@ type Props = ContainerProps & {
   closeModal: () => void;
   openModal: () => void;
   handleNext: () => void;
+  handlePrev: () => void;
 };
 
 // ______________________________________________________
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
-  const { data, handleNext } = useCalendar();
+  const { data, handleNext, handlePrev } = useCalendar();
   const { openModal, closeModal, modalState } = useModal(null, false);
 
   return (
@@ -41,6 +42,7 @@ const Container: React.FC<ContainerProps> = props => {
       closeModal={closeModal}
       openModal={openModal}
       handleNext={handleNext}
+      handlePrev={handlePrev}
     />
   );
 };
@@ -52,6 +54,9 @@ const Component: React.FC<Props> = props => (
   <>
     <div className={props.className}>
       <div className="box">
+        <Button types="simple" handleClick={props.handlePrev}>
+          <ArrowLeftIcon />
+        </Button>
         <Button types="simple" handleClick={props.handleNext}>
           <ArrowRightIcon />
         </Button>

@@ -12,12 +12,32 @@ const useCalendar = () => {
     setCurrent(currents => {
       const newCurrents = { ...currents };
       const month = currents['month'] + 1;
-      newCurrents['month'] = month + 1 > 12 ? 1 : month;
-      if (month + 1 > 12) newCurrents['year'] = currents['year'] + 1;
+      if (month > 11) {
+        newCurrents['month'] = 0;
+        newCurrents['year'] = currents['year'] + 1;
+      } else {
+        newCurrents['month'] = month;
+      }
 
       return newCurrents;
     });
   }, []);
+
+  const handlePrev = React.useCallback(() => {
+    setCurrent(currents => {
+      const newCurrents = { ...currents };
+      const month = currents['month'] - 1;
+      if (month < 0) {
+        newCurrents['year'] = currents['year'] - 1;
+        newCurrents['month'] = 11;
+      } else {
+        newCurrents['month'] = month;
+      }
+
+      return newCurrents;
+    });
+  }, []);
+
   const [date, setDate] = React.useState<number[][]>([]);
   moment.locale('ja', {
     weekdays: [
@@ -66,7 +86,8 @@ const useCalendar = () => {
 
   return {
     data: { year: currents.year, month: currents.month, date },
-    handleNext
+    handleNext,
+    handlePrev
   };
 };
 
