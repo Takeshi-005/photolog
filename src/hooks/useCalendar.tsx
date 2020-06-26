@@ -2,11 +2,21 @@ import React from 'react';
 import moment from 'moment';
 import range from 'utils/range';
 
+export type Current = {
+  year: number;
+  month: number;
+  date: number;
+  hour: number;
+};
+
 const useCalendar = () => {
-  const [currents, setCurrent] = React.useState({
+  const [currents, setCurrent] = React.useState<Current>({
     year: moment().year(),
-    month: moment().month()
+    month: moment().month(),
+    date: moment().date(),
+    hour: moment().hour()
   });
+  const [dates, setDates] = React.useState<number[][]>([]);
 
   const handleNext = React.useCallback(() => {
     setCurrent(currents => {
@@ -38,7 +48,6 @@ const useCalendar = () => {
     });
   }, []);
 
-  const [date, setDate] = React.useState<number[][]>([]);
   moment.locale('ja', {
     weekdays: [
       '日曜日',
@@ -58,16 +67,17 @@ const useCalendar = () => {
       .endOf('month')
       .date();
     const daysOfMonth = range(numOfMonth).map(i => ++i);
-    const firstWeekDay = moment()
-      .add(currents.month, 'months')
-      .startOf('month')
-      .weekday();
+    const firstWeekDay =
+      moment()
+        .add(currents.month, 'months')
+        .startOf('month')
+        .weekday() + 1;
     const lastMonthDay = moment()
-      .add(currents.month, 'months')
+      .add(currents.month - 1, 'months')
       .endOf('month')
       .date();
 
-    setDate(
+    setDates(
       range(5).map(weekIndex =>
         range(7).map(dayIndex => {
           const i = 7 * weekIndex + dayIndex - firstWeekDay;
@@ -85,7 +95,8 @@ const useCalendar = () => {
   }, [currents.month]);
 
   return {
-    data: { year: currents.year, month: currents.month, date },
+    currents,
+    dates,
     handleNext,
     handlePrev
   };

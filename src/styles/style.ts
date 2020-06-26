@@ -3,8 +3,9 @@ export const COLOR = {
   link: '#f60',
   emphasis: '#ff0',
   border: '#ccc',
-  primary: '#e91e63',
+  primary: '#42a5f5',
   text: '#222',
+  gray: '#757575',
   unselected: '#ccc'
 };
 

@@ -14,7 +14,8 @@ const BUTTON_TYPE = {
   simple: {
     color: '#757575',
     bg: '#efebe9',
-    border: 'none'
+    border: 'none',
+    width: '36px'
   }
   // secondary: {
   //   color: 'rgb(0,0,0)',
@@ -66,6 +67,10 @@ const StyledComponent = styled.button<Props>`
   border-radius: 4px;
   transition: ${TRANSITION};
   cursor: pointer;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: ${props =>
     (props.types && BUTTON_TYPE[props.types].bg) ?? '#fff'};
   color: ${props =>
@@ -74,18 +79,28 @@ const StyledComponent = styled.button<Props>`
     props.types
       ? BUTTON_TYPE[props.types].border
       : `1px solid ${COLOR.border}`};
-  width: ${props => props.style?.width ?? 'auto'};
+  width: ${props => props.style?.width ?? '40px'};
   height: ${props => props.style?.height ?? '40px'};
   &:hover {
     ${props =>
-      props.types
+      props.types === 'primary'
         ? css`
             opacity: 0.8;
+          `
+        : props.types === 'simple'
+        ? css`
+            background: ${COLOR.primary};
+            color: #fff;
           `
         : css`
             background: #d5d5d5;
           `}
   }
+  ${props =>
+    props.types === 'simple' &&
+    css`
+      height: 36px;
+    `}
 `;
 
 export default Component;

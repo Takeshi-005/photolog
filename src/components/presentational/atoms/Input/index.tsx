@@ -1,8 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { COLOR } from 'styles/style';
-import CloseIcon from '@material-ui/icons/Close';
-
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 // ______________________________________________________
 //
 // @ Types
@@ -45,7 +44,7 @@ export const Component: React.FC<Props> = React.memo(
           props.handleDelete && props.handleDelete(props.name ?? '')
         }
       >
-        <CloseIcon />
+        <HighlightOffIcon />
       </span>
     </StyledComponent>
   ),

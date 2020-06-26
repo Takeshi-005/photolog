@@ -7,6 +7,7 @@ import Button from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
+import ScheduleIcon from '@material-ui/icons/Schedule';
 
 // ______________________________________________________
 //
@@ -180,7 +181,8 @@ const StyledComponent = styled(Component)`
 
     > .bottom {
       margin-top: 8px;
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 `;

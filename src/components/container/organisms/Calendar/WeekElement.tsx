@@ -5,30 +5,24 @@ import { COLOR } from 'styles/style';
 // ______________________________________________________
 //
 // @ Types
-type Props = {
-  className?: string;
-  date: number;
-  handleClick: () => void;
-};
+type Props = { className?: string };
 
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = React.memo(props => (
-  <div className={props.className} onClick={props.handleClick}>
-    {props.date}
-  </div>
-));
+const Component: React.FC<Props> = props => (
+  <div className={props.className}>{props.children}</div>
+);
 
 //______________________________________________________
 //
 // @ StyledComponent
 export default styled(Component)`
-  border-right: 1px solid ${COLOR.border};
+  display: flex;
   flex: 1 1 0%;
-  text-align: center;
+  border-bottom: 1px solid ${COLOR.border};
 
   &:last-child {
-    border-right: none;
+    border-bottom: none;
   }
 `;
