@@ -10,7 +10,7 @@ const Component: React.FC<Props> = React.memo(
   props => (
     <div className={props.className}>
       {props.children}
-      <Input {...props} />
+      <OverrideInput {...props} modifier={['flat']} />
     </div>
   ),
   (p, n) => p.value === n.value && p.modifier === n.modifier
@@ -21,8 +21,13 @@ const Component: React.FC<Props> = React.memo(
 // @ StyledComponent
 export default styled(Component)`
   display: flex;
+  align-items: center;
 
   svg {
     fill: ${props => (props.value ? COLOR.primary : COLOR.unselected)};
   }
+`;
+
+export const OverrideInput = styled(Input)`
+  padding-left: 4px;
 `;

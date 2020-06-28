@@ -5,11 +5,11 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 // ______________________________________________________
 //
 // @ Types
-export type Modifier = 'big' | 'flat';
+export type Modifier = 'big' | 'flat' | 'notDelIcon';
 
 export type Props = {
   value?: string;
-  name: string;
+  name?: string;
   handleChange?: (name: string, value: string) => void;
   handleDelete?: (name: string) => void;
   placeholder?: string;
@@ -17,7 +17,7 @@ export type Props = {
     width?: string;
     height?: string;
   };
-  modifier?: Modifier;
+  modifier?: Modifier[];
   maxlength?: number;
   className?: string;
 };
@@ -38,14 +38,16 @@ export const Component: React.FC<Props> = React.memo(
           props.handleChange(props.name ?? '', e.currentTarget.value)
         }
       />
-      {props.modifier !== 'flat' && <div className="focus"></div>}
-      <span
-        onClick={() =>
-          props.handleDelete && props.handleDelete(props.name ?? '')
-        }
-      >
-        <HighlightOffIcon />
-      </span>
+      <div className="focus"></div>
+      {!props.modifier?.includes('notDelIcon') && (
+        <span
+          onClick={() =>
+            props.handleDelete && props.handleDelete(props.name ?? '')
+          }
+        >
+          <HighlightOffIcon />
+        </span>
+      )}
     </StyledComponent>
   ),
   (p, n) => p.value === n.value
@@ -71,14 +73,23 @@ const StyledComponent = styled.div<Props>`
     color: ${COLOR.text};
 
     ${props =>
-      props.modifier === 'big' &&
+      props.modifier?.includes('big') &&
       css`
         font-size: 18px;
+      `}
+
+    ${props =>
+      props.modifier?.includes('flat') &&
+      css`
+        &:focus,
+        &:hover {
+          background: #f5f5f5;
+        }
       `}
   }
 
   ${props =>
-    props.modifier !== 'flat' &&
+    !props.modifier?.includes('flat') &&
     css`
       &:before {
         left: 0;
@@ -89,12 +100,6 @@ const StyledComponent = styled.div<Props>`
         transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
         border-bottom: 1px solid rgba(0, 0, 0, 0.42);
         pointer-events: none;
-      }
-
-      &:hover {
-        &:before {
-          border-bottom: 2px solid rgba(0, 0, 0, 0.87);
-        }
       }
     `}
 

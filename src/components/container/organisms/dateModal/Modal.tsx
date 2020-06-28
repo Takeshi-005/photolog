@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 import { State } from 'hooks/useModal';
-import IconInput from 'components/presentational/molecules/FlexInput';
+import IconInput from './FlexInput';
+import DateInput from './DateInput';
 import Input from 'components/presentational/atoms/Input';
 import Button from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
-import ScheduleIcon from '@material-ui/icons/Schedule';
 
 // ______________________________________________________
 //
@@ -15,38 +16,47 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 type ContainerProps = {
   className?: string;
   modalState: State;
+  date: Date;
   closeModal: () => void;
 };
 type Props = ContainerProps & {
-  form: Form;
+  values: Form;
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-enum FormName {
-  title = 'title',
-  place = 'place',
-  url = 'url',
-  description = 'description'
-}
+const FormName = {
+  startDate: 'startDate',
+  endDate: 'endDate',
+  title: 'title',
+  place: 'place',
+  url: 'url',
+  description: 'description'
+} as const;
 
 type Form = {
-  [FormName.title]: string;
-  [FormName.place]: string;
-  [FormName.url]: string;
-  [FormName.description]: string;
+  startDate: string;
+  endDate: string;
+  title: string;
+  place: string;
+  url: string;
+  description: string;
 };
 
 // ______________________________________________________
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
+  const end = moment(props.date).add(1, 'hour');
+
   const [values, setValue] = React.useState<Form>({
-    [FormName.title]: '',
-    [FormName.place]: '',
-    [FormName.url]: '',
-    [FormName.description]: ''
+    startDate: moment(props.date).format('YYYY年MM月DD日 HH:mm'),
+    endDate: end.format('YYYY年MM月DD日 HH:mm'),
+    title: '',
+    place: '',
+    url: '',
+    description: ''
   });
 
   const handleChange = React.useCallback((name: string, value: string) => {
@@ -68,14 +78,16 @@ const Container: React.FC<ContainerProps> = props => {
   }, []);
 
   const handleSubmit = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {},
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      console.log(e);
+    },
     []
   );
 
   return (
     <StyledComponent
       {...props}
-      form={values}
+      values={values}
       handleChange={handleChange}
       handleDelete={handleDelete}
       handleSubmit={handleSubmit}
@@ -90,41 +102,42 @@ const Component: React.FC<Props> = props => (
   <div className={props.className}>
     <div className="content">
       <Input
-        value={props.form.title}
+        value={props.values.title}
         placeholder="イベント名"
         handleChange={props.handleChange}
         handleDelete={props.handleDelete}
         name={FormName.title}
-        modifier="big"
+        modifier={['big']}
       />
       <div className="inner">
+        <DateInput
+          startDate={props.values.startDate}
+          endDate={props.values.endDate}
+        />
         <IconInput
-          value={props.form.place}
+          value={props.values.place}
           placeholder="場所を追加"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={FormName.place}
-          modifier="flat"
         >
           <RoomIcon />
         </IconInput>
         <IconInput
-          value={props.form.url}
+          value={props.values.url}
           placeholder="URLを追加"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={FormName.url}
-          modifier="flat"
         >
           <LinkIcon />
         </IconInput>
         <IconInput
-          value={props.form.description}
+          value={props.values.description}
           placeholder="説明を追加"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={FormName.description}
-          modifier="flat"
         >
           <SubjectIcon />
         </IconInput>

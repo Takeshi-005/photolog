@@ -3,26 +3,31 @@ import styled from 'styled-components';
 import DayOfWeek from './DayOfWeek';
 import DaysElement from './DaysElement';
 import WeekElement from './WeekElement';
-import Modal from './Modal';
+import Modal from 'components/container/organisms/dateModal/Modal';
 import useModal, { State } from 'hooks/useModal';
-import useCalendar, { Current } from 'hooks/useCalendar';
+import useCalendar from 'hooks/useCalendar';
 import { COLOR } from 'styles/style';
 import Button from 'components/presentational/atoms/Button';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import moment from 'moment';
 
 // ______________________________________________________
 //
 // @ Types
 type ContainerProps = { className?: string };
 type Props = ContainerProps & {
-  dates: number[][];
-  currents: Current;
+  dates: Date[][];
+  currents: {
+    year: number;
+    month: number;
+  };
   modalState: State;
   closeModal: () => void;
-  openModal: () => void;
+  openModal: (date: Date) => void;
   handleNext: () => void;
   handlePrev: () => void;
+  selectedDate: Date;
 };
 
 // ______________________________________________________
@@ -30,19 +35,29 @@ type Props = ContainerProps & {
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
   const { dates, currents, handleNext, handlePrev } = useCalendar();
-  const { openModal, closeModal, modalState } = useModal(null, false);
-  console.log(dates);
+  const { openModal, closeModal, modalState } = useModal(false);
+  const [selectedDate, setCurrent] = React.useState(new Date());
+
+  const handleOpenModal = React.useCallback((date: Date) => {
+    setCurrent(date);
+    openModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <StyledComponent
       {...props}
       dates={dates}
-      currents={currents}
+      currents={{
+        year: moment(currents).year(),
+        month: moment(currents).month()
+      }}
       modalState={modalState}
       closeModal={closeModal}
-      openModal={openModal}
+      openModal={handleOpenModal}
       handleNext={handleNext}
       handlePrev={handlePrev}
+      selectedDate={selectedDate}
     />
   );
 };
@@ -86,7 +101,11 @@ const Component: React.FC<Props> = props => (
       </div>
     </div>
     {props.modalState.isOpen && (
-      <Modal modalState={props.modalState} closeModal={props.closeModal} />
+      <Modal
+        modalState={props.modalState}
+        date={props.selectedDate}
+        closeModal={props.closeModal}
+      />
     )}
   </>
 );

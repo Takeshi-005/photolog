@@ -10,19 +10,13 @@
 
 import { useState, useCallback } from 'react';
 
-export type Props = {
-  passVals: {};
-};
-
 export type State = {
   isOpen: boolean;
-  passVals: {};
 };
 
-const useModal = (modalContents: React.FC<Props> | null, isOpen: boolean) => {
+const useModal = (isOpen: boolean) => {
   const [modalState, updateModalState] = useState<State>({
-    isOpen: isOpen || false,
-    passVals: {}
+    isOpen: isOpen || false
   });
 
   const closeModal = useCallback(() => {
@@ -32,16 +26,12 @@ const useModal = (modalContents: React.FC<Props> | null, isOpen: boolean) => {
     });
   }, [modalState]);
 
-  const openModal = useCallback(
-    (passVals = {}) => {
-      updateModalState({
-        ...modalState,
-        passVals,
-        isOpen: true
-      });
-    },
-    [modalState]
-  );
+  const openModal = useCallback(() => {
+    updateModalState({
+      ...modalState,
+      isOpen: true
+    });
+  }, [modalState]);
 
   const toggleModal = useCallback(() => {
     updateModalState({
@@ -54,10 +44,7 @@ const useModal = (modalContents: React.FC<Props> | null, isOpen: boolean) => {
     openModal,
     closeModal,
     toggleModal,
-    modalState,
-    modalContents: modalContents
-      ? modalContents({ passVals: modalState.passVals })
-      : null
+    modalState
   };
 };
 

@@ -2,49 +2,23 @@ import React from 'react';
 import moment from 'moment';
 import range from 'utils/range';
 
-export type Current = {
-  year: number;
-  month: number;
-  date: number;
-  hour: number;
-};
-
 const useCalendar = () => {
-  const [currents, setCurrent] = React.useState<Current>({
-    year: moment().year(),
-    month: moment().month(),
-    date: moment().date(),
-    hour: moment().hour()
-  });
-  const [dates, setDates] = React.useState<number[][]>([]);
+  const [currents, setCurrent] = React.useState(new Date());
+  const [dates, setDates] = React.useState<Date[][]>([]);
 
   const handleNext = React.useCallback(() => {
     setCurrent(currents => {
-      const newCurrents = { ...currents };
-      const month = currents['month'] + 1;
-      if (month > 11) {
-        newCurrents['month'] = 0;
-        newCurrents['year'] = currents['year'] + 1;
-      } else {
-        newCurrents['month'] = month;
-      }
-
-      return newCurrents;
+      return moment(currents)
+        .add(1, 'month')
+        .toDate();
     });
   }, []);
 
   const handlePrev = React.useCallback(() => {
     setCurrent(currents => {
-      const newCurrents = { ...currents };
-      const month = currents['month'] - 1;
-      if (month < 0) {
-        newCurrents['year'] = currents['year'] - 1;
-        newCurrents['month'] = 11;
-      } else {
-        newCurrents['month'] = month;
-      }
-
-      return newCurrents;
+      return moment(currents)
+        .add(-1, 'month')
+        .toDate();
     });
   }, []);
 
@@ -62,18 +36,15 @@ const useCalendar = () => {
   });
 
   React.useEffect(() => {
-    const numOfMonth = moment()
-      .add(currents.month, 'months')
+    const numOfMonth = moment(currents)
       .endOf('month')
       .date();
     const daysOfMonth = range(numOfMonth).map(i => ++i);
-    const firstWeekDay =
-      moment()
-        .add(currents.month, 'months')
-        .startOf('month')
-        .weekday() + 1;
-    const lastMonthDay = moment()
-      .add(currents.month - 1, 'months')
+    const firstWeekDay = moment(currents)
+      .startOf('month')
+      .weekday();
+    const lastMonthDay = moment(currents)
+      .add(-1, 'months')
       .endOf('month')
       .date();
 
@@ -81,18 +52,30 @@ const useCalendar = () => {
       range(5).map(weekIndex =>
         range(7).map(dayIndex => {
           const i = 7 * weekIndex + dayIndex - firstWeekDay;
-          const count = 7 * weekIndex + (dayIndex + 1);
+          const count = 7 * weekIndex + dayIndex;
+          let month = 0;
+          let day = 0;
+
           if (weekIndex === 0 && dayIndex < firstWeekDay) {
-            return lastMonthDay - firstWeekDay + dayIndex + 1;
+            month = -1;
+            day = lastMonthDay - firstWeekDay + dayIndex + 1;
           } else if (numOfMonth < count) {
-            return count - numOfMonth;
+            month = 1;
+            day = count - numOfMonth;
+          } else {
+            day = daysOfMonth[i];
           }
 
-          return daysOfMonth[i];
+          const date = moment(currents).add(month, 'month');
+
+          return moment(
+            `${date.year()}-${date.month() + 1}-${day} ${currents.getHours() +
+              1}:00`
+          ).toDate();
         })
       )
     );
-  }, [currents.month]);
+  }, [currents]);
 
   return {
     currents,
