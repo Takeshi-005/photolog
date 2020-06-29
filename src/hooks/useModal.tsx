@@ -14,7 +14,7 @@ export type State = {
   isOpen: boolean;
 };
 
-const useModal = (isOpen: boolean) => {
+const useModal = (isOpen = false) => {
   const [modalState, updateModalState] = useState<State>({
     isOpen: isOpen || false
   });
