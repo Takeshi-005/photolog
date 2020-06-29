@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import range from 'utils/range';
 
-const useCalendar = () => {
-  const [currents, setCurrent] = React.useState(new Date());
+const useCalendar = (date = new Date()) => {
+  const [currents, setCurrent] = React.useState(date);
   const [dates, setDates] = React.useState<Date[][]>([]);
 
   const handleNext = React.useCallback(() => {
@@ -22,7 +22,7 @@ const useCalendar = () => {
     });
   }, []);
 
-  moment.locale('ja', {
+  moment.updateLocale('ja', {
     weekdays: [
       '日曜日',
       '月曜日',
