@@ -1,15 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { COLOR } from 'styles/style';
 import moment from 'moment';
+import { Type } from './index';
 
 // ______________________________________________________
 //
 // @ Types
 type Props = {
-  className?: string;
   date: Date;
-  handleClick: (date: Date) => void;
+  handleClick?: (date: Date) => void;
+  type?: Type;
+  className?: string;
 };
 
 //______________________________________________________
@@ -18,7 +20,7 @@ type Props = {
 const Component: React.FC<Props> = React.memo(props => (
   <div
     className={props.className}
-    onClick={() => props.handleClick(props.date)}
+    onClick={() => props.handleClick && props.handleClick(props.date)}
   >
     {moment(props.date).date()}
   </div>
@@ -28,9 +30,20 @@ const Component: React.FC<Props> = React.memo(props => (
 //
 // @ StyledComponent
 export default styled(Component)`
-  border-right: 1px solid ${COLOR.border};
-  flex: 1 1 0%;
   text-align: center;
+  ${props =>
+    props.type !== 'input' &&
+    css`
+      flex: 1 1 0%;
+      border-right: 1px solid ${COLOR.border};
+    `}
+
+  ${props =>
+    props.type === 'input' &&
+    css`
+      width: 32px;
+      height: 32px;
+    `}
 
   &:last-child {
     border-right: none;

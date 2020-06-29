@@ -12,6 +12,8 @@ export type Props = {
   name?: string;
   handleChange?: (name: string, value: string) => void;
   handleDelete?: (name: string) => void;
+  handleFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;
   style?: {
     width?: string;
@@ -37,6 +39,8 @@ export const Component: React.FC<Props> = React.memo(
           props.handleChange &&
           props.handleChange(props.name ?? '', e.currentTarget.value)
         }
+        onFocus={props.handleFocus}
+        onBlur={props.handleBlur}
       />
       <div className="focus"></div>
       {!props.modifier?.includes('notDelIcon') && (

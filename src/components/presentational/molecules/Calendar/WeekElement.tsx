@@ -1,11 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { COLOR } from 'styles/style';
+import { Type } from './index';
 
 // ______________________________________________________
 //
 // @ Types
-type Props = { className?: string };
+type Props = { type?: Type; className?: string };
 
 //______________________________________________________
 //
@@ -19,8 +20,12 @@ const Component: React.FC<Props> = props => (
 // @ StyledComponent
 export default styled(Component)`
   display: flex;
-  flex: 1 1 0%;
-  border-bottom: 1px solid ${COLOR.border};
+  ${props =>
+    props.type !== 'input' &&
+    css`
+      flex: 1 1 0%;
+      border-bottom: 1px solid ${COLOR.border};
+    `}
 
   &:last-child {
     border-bottom: none;

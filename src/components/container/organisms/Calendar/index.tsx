@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import DayOfWeek from './DayOfWeek';
-import DaysElement from './DaysElement';
-import WeekElement from './WeekElement';
+import Calendar from 'components/presentational/molecules/Calendar';
 import Modal from 'components/container/organisms/dateModal/Modal';
 import useModal, { State } from 'hooks/useModal';
 import useCalendar from 'hooks/useCalendar';
@@ -65,7 +63,7 @@ const Container: React.FC<ContainerProps> = props => {
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = props => (
+export const Component: React.FC<Props> = props => (
   <>
     <div className={props.className}>
       <div className="head">
@@ -81,24 +79,11 @@ const Component: React.FC<Props> = props => (
           {props.currents.year}年 {props.currents.month + 1}月
         </h1>
       </div>
-      <div className="wrapper">
-        <div className="inner">
-          <DayOfWeek days={['日', '月', '火', '水', '木', '金', '土']} />
-          {props.dates.map((days, i) => (
-            <WeekElement
-              key={`${props.currents.year}-${props.currents.month}-${i}`}
-            >
-              {days.map(date => (
-                <DaysElement
-                  key={`${props.currents.year}-${props.currents.month}-${date}`}
-                  date={date}
-                  handleClick={props.openModal}
-                />
-              ))}
-            </WeekElement>
-          ))}
-        </div>
-      </div>
+      <Calendar
+        dates={props.dates}
+        currents={props.currents}
+        openModal={props.openModal}
+      />
     </div>
     {props.modalState.isOpen && (
       <Modal
@@ -126,18 +111,6 @@ const StyledComponent = styled(Component)`
     }
     > .box {
       display: flex;
-    }
-  }
-
-  > .wrapper {
-    border: 1px solid ${COLOR.border};
-    height: calc(100vh - 80px);
-
-    > .inner {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 0%;
-      height: 100%;
     }
   }
 `;

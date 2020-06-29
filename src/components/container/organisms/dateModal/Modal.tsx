@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { State } from 'hooks/useModal';
 import IconInput from './FlexInput';
-import DateInput from './DateInput';
+import DateInput from './DateContainer';
 import Input from 'components/presentational/atoms/Input';
 import Button from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
@@ -79,6 +79,7 @@ const Container: React.FC<ContainerProps> = props => {
 
   const handleSubmit = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      // eslint-disable-next-line no-console
       console.log(e);
     },
     []
