@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-// import useModal, { State } from 'hooks/useModal';
+import { State } from 'hooks/useModal';
 import IconInput from './FlexInput';
 import DateContainer from './DateContainer';
 import DateInput from './DateInput';
