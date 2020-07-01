@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Calendar from 'components/presentational/molecules/Calendar';
-import Modal from 'components/container/organisms/dateModal/Modal';
+import Modal from 'components/container/organisms/dateModal';
 import useModal, { State } from 'hooks/useModal';
 import useCalendar from 'hooks/useCalendar';
 import { COLOR } from 'styles/style';
@@ -82,16 +82,16 @@ export const Component: React.FC<Props> = props => (
       <Calendar
         dates={props.dates}
         currents={props.currents}
-        openModal={props.openModal}
+        handleClick={props.openModal}
       />
     </div>
-    {props.modalState.isOpen && (
-      <Modal
-        modalState={props.modalState}
-        date={props.selectedDate}
-        closeModal={props.closeModal}
-      />
-    )}
+    {/* {props.modalState.isOpen && ( */}
+    <Modal
+      modalState={props.modalState}
+      date={props.selectedDate}
+      closeModal={props.closeModal}
+    />
+    {/* )} */}
   </>
 );
 

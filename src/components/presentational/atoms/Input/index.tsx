@@ -15,6 +15,10 @@ export type Props = {
   handleFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  /* react-tooltip で使用する */
+  dataFor?: string;
+  /* react-tooltip で使用する */
+  dataEvent?: string;
   style?: {
     width?: string;
     height?: string;
@@ -31,6 +35,9 @@ export const Component: React.FC<Props> = React.memo(
   props => (
     <StyledComponent {...props}>
       <input
+        data-tip
+        data-for={props.dataFor}
+        data-event={props.dataEvent}
         type="text"
         maxLength={props.maxlength}
         placeholder={props.placeholder}

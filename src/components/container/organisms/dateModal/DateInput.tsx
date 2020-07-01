@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 import Input from 'components/presentational/atoms/Input';
 import Calendar from 'components/presentational/molecules/Calendar';
-
 import useCalendar from 'hooks/useCalendar';
-import useModal, { State } from 'hooks/useModal';
+import dateFormat from 'utils/dateFormat';
+import { COLOR } from 'styles/style';
 
 // ______________________________________________________
 //
 // @ Types
 type ContainerProps = {
-  date: string;
+  tooltip: string;
+  value: string;
+  name: string;
+  handleChange: (name: string, value: string) => void;
   className?: string;
 };
 type Props = ContainerProps & {
@@ -18,32 +22,21 @@ type Props = ContainerProps & {
     date: string;
     time: string;
   };
-  handleFocus: () => void;
-  handleBlur: () => void;
+  handleClick: (date: Date) => void;
   dates: Date[][];
   currents: Date;
-  modalState: State;
 };
 
 // ______________________________________________________
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
-  const [date, time] = props.date.split(' ');
+  const [date, time] = props.value.split(' ');
   const { currents, dates } = useCalendar();
-  const { modalState, openModal, closeModal } = useModal();
 
-  const handleFocus = React.useCallback(
-    () => {
-      openModal();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  const handleBlur = React.useCallback(
-    () => {
-      closeModal();
+  const handleClick = React.useCallback(
+    (date: Date) => {
+      props.handleChange(props.name, dateFormat(date));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -55,9 +48,7 @@ const Container: React.FC<ContainerProps> = props => {
       start={{ date, time }}
       dates={dates}
       currents={currents}
-      modalState={modalState}
-      handleFocus={handleFocus}
-      handleBlur={handleBlur}
+      handleClick={handleClick}
     />
   );
 };
@@ -70,23 +61,34 @@ const Component: React.FC<Props> = props => (
     <div className="date">
       <Input
         value={props.start.date}
-        handleFocus={props.handleFocus}
-        handleBlur={props.handleBlur}
         modifier={['flat', 'notDelIcon']}
         style={{ width: '145px' }}
+        dataFor={props.tooltip}
+        dataEvent="click"
       />
-      {props.modalState.isOpen && (
-        <div className="modal">
-          <OverrideCalendar
-            dates={props.dates}
-            currents={{
-              year: props.currents.getFullYear(),
-              month: props.currents.getMonth() + 1
-            }}
-            type="input"
-          />
-        </div>
-      )}
+      <ReactTooltip
+        id={props.tooltip}
+        place="bottom"
+        effect="float"
+        event="click"
+        clickable={true}
+        border={true}
+        borderColor={COLOR.border}
+        backgroundColor="#fff"
+        textColor={COLOR.text}
+        globalEventOff="click"
+      >
+        <Calendar
+          dates={props.dates}
+          currents={{
+            year: props.currents.getFullYear(),
+            month: props.currents.getMonth() + 1
+          }}
+          type="input"
+          handleClick={props.handleClick}
+        />
+      </ReactTooltip>
+      {/* )} */}
     </div>
     <Input
       value={props.start.time}
@@ -107,12 +109,9 @@ const StyledComponent = styled(Component)`
 
     > .modal {
       position: absolute;
-      top: 40px;
-      z-index: 10;
+      bottom: 0;
     }
   }
 `;
-
-const OverrideCalendar = styled(Calendar)``;
 
 export default Container;

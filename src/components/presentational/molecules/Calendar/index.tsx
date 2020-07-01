@@ -17,7 +17,7 @@ type Props = {
     month: number;
   };
   type?: Type;
-  openModal?: (date: Date) => void;
+  handleClick?: (date: Date) => void;
   className?: string;
 };
 
@@ -41,7 +41,7 @@ const Component: React.FC<Props> = props => (
               key={`${props.currents.year}-${props.currents.month}-${date}`}
               date={date}
               type={props.type}
-              handleClick={props.openModal}
+              handleClick={props.handleClick}
             />
           ))}
         </WeekElement>

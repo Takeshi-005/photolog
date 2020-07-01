@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import { State } from 'hooks/useModal';
+// import useModal, { State } from 'hooks/useModal';
 import IconInput from './FlexInput';
-import DateInput from './DateContainer';
+import DateContainer from './DateContainer';
+import DateInput from './DateInput';
 import Input from 'components/presentational/atoms/Input';
-import Button from 'components/presentational/atoms/Button';
+import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
+import dateFormat from 'utils/dateFormat';
+import Modal from 'components/presentational/molecules/Modal';
 
 // ______________________________________________________
 //
@@ -21,9 +24,11 @@ type ContainerProps = {
 };
 type Props = ContainerProps & {
   values: Form;
+  modalState: State;
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleCloseModal: () => void;
 };
 
 const FormName = {
@@ -48,11 +53,14 @@ type Form = {
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
-  const end = moment(props.date).add(1, 'hour');
+  const end = moment(props.date)
+    .add(1, 'hour')
+    .toDate();
+  // const { modalState } = useModal();
 
   const [values, setValue] = React.useState<Form>({
-    startDate: moment(props.date).format('YYYY年MM月DD日 HH:mm'),
-    endDate: end.format('YYYY年MM月DD日 HH:mm'),
+    startDate: dateFormat(props.date),
+    endDate: dateFormat(end),
     title: '',
     place: '',
     url: '',
@@ -77,6 +85,14 @@ const Container: React.FC<ContainerProps> = props => {
     });
   }, []);
 
+  const handleCloseModal = React.useCallback(() => {
+    if (values.title !== '') {
+    } else {
+      props.closeModal();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props, values.title]);
+
   const handleSubmit = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       // eslint-disable-next-line no-console
@@ -92,6 +108,8 @@ const Container: React.FC<ContainerProps> = props => {
       handleChange={handleChange}
       handleDelete={handleDelete}
       handleSubmit={handleSubmit}
+      handleCloseModal={handleCloseModal}
+      // modalState={modalState}
     />
   );
 };
@@ -100,8 +118,8 @@ const Container: React.FC<ContainerProps> = props => {
 //
 // @ Component
 const Component: React.FC<Props> = props => (
-  <div className={props.className}>
-    <div className="content">
+  <Modal modalState={props.modalState} handleClick={props.handleCloseModal}>
+    <div className={props.className}>
       <Input
         value={props.values.title}
         placeholder="イベント名"
@@ -111,10 +129,21 @@ const Component: React.FC<Props> = props => (
         modifier={['big']}
       />
       <div className="inner">
-        <DateInput
-          startDate={props.values.startDate}
-          endDate={props.values.endDate}
-        />
+        <DateContainer>
+          <DateInput
+            name={FormName.startDate}
+            tooltip="start"
+            value={props.values.startDate}
+            handleChange={props.handleChange}
+          />
+          〜
+          <DateInput
+            name={FormName.endDate}
+            tooltip="end"
+            value={props.values.endDate}
+            handleChange={props.handleChange}
+          />
+        </DateContainer>
         <IconInput
           value={props.values.place}
           placeholder="場所を追加"
@@ -146,48 +175,23 @@ const Component: React.FC<Props> = props => (
       <div className="bottom">
         <Button
           text="保存する"
-          types="primary"
+          types={
+            `${
+              props.values.title !== '' ? 'primary' : 'disabled'
+            }` as keyof typeof BUTTON_TYPE
+          }
           style={{ width: '100px' }}
           handleClick={props.handleSubmit}
         />
       </div>
     </div>
-    <div className="overlay" onClick={props.closeModal}></div>
-  </div>
+  </Modal>
 );
 
 //______________________________________________________
 //
 // @ StyledComponent
 const StyledComponent = styled(Component)`
-  background: rgba(0, 0, 0, 0.7);
-  display: ${props => (props.modalState.isOpen ? 'block' : 'none')};
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  > .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-  }
-
-  > .content {
-    width: 500px;
-    height: 400px;
-    background: #fff;
-    padding: 16px;
-    position: relatie;
-    z-index: 10001;
 
     > .inner {
       margin-top: 16px;

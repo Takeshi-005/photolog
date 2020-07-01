@@ -5,7 +5,7 @@ import { COLOR, TRANSITION } from 'styles/style';
 // ______________________________________________________
 //
 // @ Constants
-const BUTTON_TYPE = {
+export const BUTTON_TYPE = {
   primary: {
     color: '#fff',
     bg: COLOR.primary,
@@ -16,15 +16,16 @@ const BUTTON_TYPE = {
     bg: '#efebe9',
     border: 'none',
     width: '36px'
-  }
+  },
   // secondary: {
   //   color: 'rgb(0,0,0)',
   //   bg: '#ff0'
   // },
-  // disabled: {
-  //   color: '#fff',
-  //   bg: '#ccc'
-  // }
+  disabled: {
+    color: '#fff',
+    bg: '#ccc',
+    border: 'none'
+  }
 } as const;
 
 // ______________________________________________________
@@ -50,13 +51,17 @@ type Props = {
 const Component: React.FC<Props> = React.memo(
   props => {
     return (
-      <StyledComponent {...props} onClick={props.handleClick}>
+      <StyledComponent
+        {...props}
+        onClick={props.handleClick}
+        disabled={props.types === 'disabled' ? true : false}
+      >
         {props.children}
         {props.text}
       </StyledComponent>
     );
   },
-  (p, n) => p.text === n.text
+  (p, n) => p.text === n.text && p.types === n.types
 );
 
 //______________________________________________________
@@ -92,7 +97,8 @@ const StyledComponent = styled.button<Props>`
             background: ${COLOR.primary};
             color: #fff;
           `
-        : css`
+        : !props.types &&
+          css`
             background: #d5d5d5;
           `}
   }
@@ -100,6 +106,12 @@ const StyledComponent = styled.button<Props>`
     props.types === 'simple' &&
     css`
       height: 36px;
+    `}
+
+  ${props =>
+    props.types === 'disabled' &&
+    css`
+      cursor: auto;
     `}
 `;
 
