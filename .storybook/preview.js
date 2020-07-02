@@ -13,7 +13,7 @@ addParameters({
 addDecorator(withKnobs);
 
 const loaderFn = () => {
-  const allExports = [require('../src/stories/welcome.stories.js')];
+  const allExports = [];
   const req = require.context('../src/components', true, /\.stories\.(tsx|mdx)$/);
   req.keys().forEach(fname => allExports.push(req(fname)));
   return allExports;

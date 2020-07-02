@@ -15,14 +15,11 @@ export type Props = {
   handleFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  /* react-tooltip で使用する */
+  /** react-tooltip で使用する */
   dataFor?: string;
-  /* react-tooltip で使用する */
+  /** react-tooltip で使用する */
   dataEvent?: string;
-  style?: {
-    width?: string;
-    height?: string;
-  };
+  style?: React.CSSProperties;
   modifier?: Modifier[];
   maxlength?: number;
   className?: string;

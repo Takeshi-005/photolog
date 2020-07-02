@@ -23,6 +23,10 @@ export default styled(Component)`
   display: flex;
   align-items: center;
 
+  * + & {
+    margin-top: 6px;
+  }
+
   svg {
     fill: ${props => (props.value ? COLOR.primary : COLOR.unselected)};
   }

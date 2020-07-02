@@ -8,8 +8,11 @@ export default {
 };
 
 export const Button = () => (
-  <Component
-    text={text('text', 'text')}
-    types={text('type', 'primary') as ButtonType}
-  />
+  <>
+    <Component
+      text={text('text', 'text')}
+      types={text('type', 'primary') as ButtonType}
+    />
+    <Component text={text('text', 'text')} />
+  </>
 );

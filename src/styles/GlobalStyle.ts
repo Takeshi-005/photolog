@@ -6,9 +6,9 @@ ${normalize}
 * {
   box-sizing: border-box;
 }
-// -----------------------------------------------------
+/* // -----------------------------------------------------
 //    reset
-// -----------------------------------------------------
+// ----------------------------------------------------- */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -48,8 +48,8 @@ html,body{
 body {
   background: #FFF;
   line-height: 1.5;
-  font-family: $base-font-family;
-  color: $base-font-color;
+  font-family: -apple-system, BlinkMacSystemFont, HelveticaNeue, "Helvetica Neue", TeXGyreHerosBold, Helvetica, Tahoma, Geneva, Arial, "Hiragino Sans", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", Meryo, メイリオ, Osaka, Verdana, "ＭＳ Ｐゴシック", "MS P Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  /* color: $base-font-color; */
   zoom: 1!important;
 }
 

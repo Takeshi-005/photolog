@@ -48,7 +48,7 @@ type Props = {
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = React.memo(
+export const Component: React.FC<Props> = React.memo(
   props => {
     return (
       <StyledComponent
@@ -72,7 +72,7 @@ const StyledComponent = styled.button<Props>`
   border-radius: 4px;
   transition: ${TRANSITION};
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +84,7 @@ const StyledComponent = styled.button<Props>`
     props.types
       ? BUTTON_TYPE[props.types].border
       : `1px solid ${COLOR.border}`};
-  width: ${props => props.style?.width ?? '40px'};
+  width: ${props => props.style?.width ?? 'auto'};
   height: ${props => props.style?.height ?? '40px'};
   &:hover {
     ${props =>

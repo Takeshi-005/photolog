@@ -85,13 +85,11 @@ export const Component: React.FC<Props> = props => (
         handleClick={props.openModal}
       />
     </div>
-    {/* {props.modalState.isOpen && ( */}
     <Modal
       modalState={props.modalState}
       date={props.selectedDate}
       closeModal={props.closeModal}
     />
-    {/* )} */}
   </>
 );
 

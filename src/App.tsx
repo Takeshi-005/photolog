@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import useApi from 'useApi';
-import Spinner from 'components/presentational/atoms/Spinner';
-import Calendar from 'components/container/organisms/Calendar/index';
+// import useApi from 'useApi';
+// import Spinner from 'components/presentational/atoms/Spinner';
+import Calendar from 'components/container/Pages/index';
 
 // ______________________________________________________
 //
@@ -15,7 +15,6 @@ const App: React.FC<Props> = props => {
   return (
     <div className={props.className}>
       {/* {state.isLoading && <Spinner />} */}
-      <h1>カレンダー</h1>
       <div className="container">
         <Calendar />
       </div>

@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import { State } from 'hooks/useModal';
+import useModal, { State } from 'hooks/useModal';
 import IconInput from './FlexInput';
 import DateContainer from './DateContainer';
 import DateInput from './DateInput';
+import ConfirmModal from './ConfirmModal';
+import Modal from 'components/presentational/molecules/Modal';
 import Input from 'components/presentational/atoms/Input';
 import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
 import dateFormat from 'utils/dateFormat';
-import Modal from 'components/presentational/molecules/Modal';
 
 // ______________________________________________________
 //
@@ -29,6 +30,12 @@ type Props = ContainerProps & {
   handleDelete: (name: string) => void;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleCloseModal: () => void;
+  handleAllCloseModal: () => void;
+  useModal: {
+    modalState: State;
+    openModal: () => void;
+    closeModal: () => void;
+  };
 };
 
 const FormName = {
@@ -49,27 +56,42 @@ type Form = {
   description: string;
 };
 
+const initialState = {
+  startDate: '',
+  endDate: '',
+  title: '',
+  place: '',
+  url: '',
+  description: ''
+};
+
 // ______________________________________________________
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
-  const end = moment(props.date)
-    .add(1, 'hour')
-    .toDate();
-  // const { modalState } = useModal();
+  const end = (date: Date) => {
+    return moment(date)
+      .add(1, 'hour')
+      .toDate();
+  };
 
-  const [values, setValue] = React.useState<Form>({
-    startDate: dateFormat(props.date),
-    endDate: dateFormat(end),
-    title: '',
-    place: '',
-    url: '',
-    description: ''
-  });
+  const { modalState, openModal, closeModal } = useModal();
+
+  const [values, setValue] = React.useState<Form>(initialState);
+
+  React.useEffect(() => {
+    setValue(values => {
+      const newValues = { ...values };
+      newValues['startDate'] = dateFormat(props.date);
+      newValues['endDate'] = dateFormat(end(props.date));
+
+      return newValues;
+    });
+  }, [props.date]);
 
   const handleChange = React.useCallback((name: string, value: string) => {
-    setValue(form => {
-      const newValues = { ...form };
+    setValue(values => {
+      const newValues = { ...values };
       newValues[name as keyof Form] = value;
 
       return newValues;
@@ -87,11 +109,12 @@ const Container: React.FC<ContainerProps> = props => {
 
   const handleCloseModal = React.useCallback(() => {
     if (values.title !== '') {
+      openModal();
     } else {
       props.closeModal();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props, values.title]);
+  }, [values.title]);
 
   const handleSubmit = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -101,6 +124,13 @@ const Container: React.FC<ContainerProps> = props => {
     []
   );
 
+  const handleAllCloseModal = React.useCallback(() => {
+    closeModal();
+    props.closeModal();
+    setValue(initialState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [closeModal]);
+
   return (
     <StyledComponent
       {...props}
@@ -109,7 +139,12 @@ const Container: React.FC<ContainerProps> = props => {
       handleDelete={handleDelete}
       handleSubmit={handleSubmit}
       handleCloseModal={handleCloseModal}
-      // modalState={modalState}
+      handleAllCloseModal={handleAllCloseModal}
+      useModal={{
+        modalState,
+        openModal,
+        closeModal
+      }}
     />
   );
 };
@@ -118,74 +153,88 @@ const Container: React.FC<ContainerProps> = props => {
 //
 // @ Component
 const Component: React.FC<Props> = props => (
-  <Modal modalState={props.modalState} handleClick={props.handleCloseModal}>
-    <div className={props.className}>
-      <Input
-        value={props.values.title}
-        placeholder="イベント名"
-        handleChange={props.handleChange}
-        handleDelete={props.handleDelete}
-        name={FormName.title}
-        modifier={['big']}
-      />
-      <div className="inner">
-        <DateContainer>
-          <DateInput
-            name={FormName.startDate}
-            tooltip="start"
-            value={props.values.startDate}
-            handleChange={props.handleChange}
-          />
-          〜
-          <DateInput
-            name={FormName.endDate}
-            tooltip="end"
-            value={props.values.endDate}
-            handleChange={props.handleChange}
-          />
-        </DateContainer>
-        <IconInput
-          value={props.values.place}
-          placeholder="場所を追加"
+  <>
+    <Modal modalState={props.modalState} handleClick={props.handleCloseModal}>
+      <div className={props.className}>
+        <Input
+          value={props.values.title}
+          placeholder="イベント名"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
-          name={FormName.place}
-        >
-          <RoomIcon />
-        </IconInput>
-        <IconInput
-          value={props.values.url}
-          placeholder="URLを追加"
-          handleChange={props.handleChange}
-          handleDelete={props.handleDelete}
-          name={FormName.url}
-        >
-          <LinkIcon />
-        </IconInput>
-        <IconInput
-          value={props.values.description}
-          placeholder="説明を追加"
-          handleChange={props.handleChange}
-          handleDelete={props.handleDelete}
-          name={FormName.description}
-        >
-          <SubjectIcon />
-        </IconInput>
-      </div>
-      <div className="bottom">
-        <Button
-          text="保存する"
-          types={
-            `${
-              props.values.title !== '' ? 'primary' : 'disabled'
-            }` as keyof typeof BUTTON_TYPE
-          }
-          style={{ width: '100px' }}
-          handleClick={props.handleSubmit}
+          name={FormName.title}
+          modifier={['big']}
         />
+        <div className="inner">
+          <DateContainer>
+            <DateInput
+              name={FormName.startDate}
+              tooltip="start"
+              value={props.values.startDate}
+              handleChange={props.handleChange}
+            />
+            〜
+            <DateInput
+              name={FormName.endDate}
+              tooltip="end"
+              value={props.values.endDate}
+              handleChange={props.handleChange}
+            />
+          </DateContainer>
+          <IconInput
+            value={props.values.place}
+            placeholder="場所を追加"
+            handleChange={props.handleChange}
+            handleDelete={props.handleDelete}
+            name={FormName.place}
+          >
+            <RoomIcon />
+          </IconInput>
+          <IconInput
+            value={props.values.url}
+            placeholder="URLを追加"
+            handleChange={props.handleChange}
+            handleDelete={props.handleDelete}
+            name={FormName.url}
+          >
+            <LinkIcon />
+          </IconInput>
+          <IconInput
+            value={props.values.description}
+            placeholder="説明を追加"
+            handleChange={props.handleChange}
+            handleDelete={props.handleDelete}
+            name={FormName.description}
+          >
+            <SubjectIcon />
+          </IconInput>
+        </div>
+        <div className="bottom">
+          <Button
+            text="保存する"
+            types={
+              `${
+                props.values.title !== '' ? 'primary' : 'disabled'
+              }` as keyof typeof BUTTON_TYPE
+            }
+            style={{ width: '100px' }}
+            handleClick={props.handleSubmit}
+          />
+        </div>
       </div>
-    </div>
-  </Modal>
+    </Modal>
+    <Modal
+      modalState={props.useModal.modalState}
+      style={{
+        height: '200px',
+        width: '480px'
+      }}
+    >
+      <ConfirmModal
+        handleAllCloseModal={props.handleAllCloseModal}
+        handleCloseModal={props.useModal.closeModal}
+      />
+    </Modal>
+  </>
 );
 
 //______________________________________________________
