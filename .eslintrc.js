@@ -51,7 +51,6 @@ module.exports = {
   rules: {
     // eslint official
     'newline-before-return': 'error',
-    'no-console': 'warn',
     'require-yield': 'error',
 
     // @typescript-eslint

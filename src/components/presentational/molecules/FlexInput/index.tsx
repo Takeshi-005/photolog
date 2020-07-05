@@ -1,19 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import Input, { Props } from 'components/presentational/atoms/Input';
 import { COLOR } from 'styles/style';
 
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = React.memo(
-  props => (
-    <div className={props.className}>
-      {props.children}
-      <OverrideInput {...props} modifier={['flat']} />
-    </div>
-  ),
-  (p, n) => p.value === n.value && p.modifier === n.modifier
+const Component: React.FC<{ className?: string; value: string }> = React.memo(
+  props => <div className={props.className}>{props.children}</div>,
+  (p, n) => p.value === n.value
 );
 
 //______________________________________________________
@@ -28,10 +22,7 @@ export default styled(Component)`
   }
 
   svg {
+    padding-right: 4px;
     fill: ${props => (props.value ? COLOR.primary : COLOR.unselected)};
   }
-`;
-
-export const OverrideInput = styled(Input)`
-  padding-left: 4px;
 `;

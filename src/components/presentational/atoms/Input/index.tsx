@@ -1,6 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { COLOR } from 'styles/style';
+import { BaseInput } from 'styles/BaseInput';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 // ______________________________________________________
 //
@@ -10,6 +11,7 @@ export type Modifier = 'big' | 'flat' | 'notDelIcon';
 export type Props = {
   value?: string;
   name?: string;
+  type?: 'text' | 'password' | 'email';
   handleChange?: (name: string, value: string) => void;
   handleDelete?: (name: string) => void;
   handleFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -31,11 +33,11 @@ export type Props = {
 export const Component: React.FC<Props> = React.memo(
   props => (
     <StyledComponent {...props}>
-      <input
+      <BaseInput
         data-tip
         data-for={props.dataFor}
         data-event={props.dataEvent}
-        type="text"
+        type={props.type ?? 'text'}
         maxLength={props.maxlength}
         placeholder={props.placeholder}
         value={props.value}
@@ -71,14 +73,8 @@ const StyledComponent = styled.div<Props>`
   width: 100%;
 
   > input {
-    -webkit-appearance: none;
-    border: none;
-    border-radius: 4px;
-    outline: none;
-    padding: 8px;
     width: ${props => props.style?.width ?? '100%'};
     height: ${props => props.style?.height ?? 'auto'};
-    color: ${COLOR.text};
 
     ${props =>
       props.modifier?.includes('big') &&
@@ -91,7 +87,7 @@ const StyledComponent = styled.div<Props>`
       css`
         &:focus,
         &:hover {
-          background: #f5f5f5;
+          background: ${COLOR.focus};
         }
       `}
   }

@@ -36,10 +36,7 @@ type Props = {
   /** 表示するテキスト */
   text?: string;
   types?: ButtonType;
-  style?: {
-    width?: string;
-    height?: string;
-  };
+  style?: React.CSSProperties;
   handleClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   /** styled-components */
   className?: string;

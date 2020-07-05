@@ -6,7 +6,8 @@ export const COLOR = {
   primary: '#42a5f5',
   text: '#222',
   gray: '#757575',
-  unselected: '#ccc'
+  unselected: '#ccc',
+  focus: '#f5f5f5'
 };
 
 export const DEVICE = {

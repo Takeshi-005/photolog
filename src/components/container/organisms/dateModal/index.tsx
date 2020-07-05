@@ -2,13 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import useModal, { State } from 'hooks/useModal';
-import IconInput from './FlexInput';
+import FlexInput from '../../../presentational/molecules/FlexInput';
 import DateContainer from './DateContainer';
 import DateInput from './DateInput';
 import ConfirmModal from './ConfirmModal';
 import Modal from 'components/presentational/molecules/Modal';
 import Input from 'components/presentational/atoms/Input';
+import Select from 'components/presentational/atoms/Select';
+import InputFile from 'components/presentational/atoms/InputFile';
 import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
+import AlbumIcon from '@material-ui/icons/Album';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
@@ -16,15 +19,47 @@ import dateFormat from 'utils/dateFormat';
 
 // ______________________________________________________
 //
-// @ Types
+// @Constants
+const formName = {
+  startDate: 'startDate',
+  endDate: 'endDate',
+  title: 'title',
+  place: 'place',
+  url: 'url',
+  description: 'description',
+  genre: 'genre',
+  image: 'image'
+} as const;
+
+const initialState: { [key in FormName]: string } = {
+  startDate: '',
+  endDate: '',
+  title: '',
+  place: '',
+  url: '',
+  description: '',
+  genre: '',
+  image: ''
+};
+
+const options = {
+  ジャンルを選択: '',
+  アイテム: 'item',
+  グルメ: 'gourmet'
+};
+
+// ______________________________________________________
+//
+// @Types
 type ContainerProps = {
   className?: string;
   modalState: State;
   date: Date;
   closeModal: () => void;
 };
+
 type Props = ContainerProps & {
-  values: Form;
+  values: typeof initialState;
   modalState: State;
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
@@ -37,37 +72,11 @@ type Props = ContainerProps & {
     closeModal: () => void;
   };
 };
-
-const FormName = {
-  startDate: 'startDate',
-  endDate: 'endDate',
-  title: 'title',
-  place: 'place',
-  url: 'url',
-  description: 'description'
-} as const;
-
-type Form = {
-  startDate: string;
-  endDate: string;
-  title: string;
-  place: string;
-  url: string;
-  description: string;
-};
-
-const initialState = {
-  startDate: '',
-  endDate: '',
-  title: '',
-  place: '',
-  url: '',
-  description: ''
-};
+type FormName = keyof typeof formName;
 
 // ______________________________________________________
 //
-// @ Container
+// @Container
 const Container: React.FC<ContainerProps> = props => {
   const end = (date: Date) => {
     return moment(date)
@@ -76,8 +85,9 @@ const Container: React.FC<ContainerProps> = props => {
   };
 
   const { modalState, openModal, closeModal } = useModal();
+  const ref = React.createRef<HTMLInputElement>();
 
-  const [values, setValue] = React.useState<Form>(initialState);
+  const [values, setValue] = React.useState(initialState);
 
   React.useEffect(() => {
     setValue(values => {
@@ -92,7 +102,7 @@ const Container: React.FC<ContainerProps> = props => {
   const handleChange = React.useCallback((name: string, value: string) => {
     setValue(values => {
       const newValues = { ...values };
-      newValues[name as keyof Form] = value;
+      newValues[name as FormName] = value;
 
       return newValues;
     });
@@ -101,7 +111,7 @@ const Container: React.FC<ContainerProps> = props => {
   const handleDelete = React.useCallback((name: string) => {
     setValue(form => {
       const newValues = { ...form };
-      newValues[name as keyof Form] = '';
+      newValues[name as FormName] = '';
 
       return newValues;
     });
@@ -145,68 +155,96 @@ const Container: React.FC<ContainerProps> = props => {
         openModal,
         closeModal
       }}
+      ref={ref}
     />
   );
 };
 
 //______________________________________________________
 //
-// @ Component
-const Component: React.FC<Props> = props => (
+// @Component
+const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
   <>
     <Modal modalState={props.modalState} handleClick={props.handleCloseModal}>
       <div className={props.className}>
         <Input
           value={props.values.title}
-          placeholder="イベント名"
+          placeholder="タイトル"
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
-          name={FormName.title}
+          name={formName.title}
           modifier={['big']}
         />
         <div className="inner">
           <DateContainer>
             <DateInput
-              name={FormName.startDate}
+              name={formName.startDate}
               tooltip="start"
               value={props.values.startDate}
               handleChange={props.handleChange}
             />
             〜
             <DateInput
-              name={FormName.endDate}
+              name={formName.endDate}
               tooltip="end"
               value={props.values.endDate}
               handleChange={props.handleChange}
             />
           </DateContainer>
-          <IconInput
-            value={props.values.place}
-            placeholder="場所を追加"
-            handleChange={props.handleChange}
-            handleDelete={props.handleDelete}
-            name={FormName.place}
-          >
+          <FlexInput value={props.values.place}>
+            <AlbumIcon />
+            <Select
+              value={props.values.genre}
+              handleChange={props.handleChange}
+              options={options}
+              name={formName.genre}
+            />
+          </FlexInput>
+          <FlexInput value={props.values.place}>
             <RoomIcon />
-          </IconInput>
-          <IconInput
-            value={props.values.url}
-            placeholder="URLを追加"
-            handleChange={props.handleChange}
-            handleDelete={props.handleDelete}
-            name={FormName.url}
-          >
+            <Input
+              value={props.values.place}
+              placeholder="場所を追加"
+              handleChange={props.handleChange}
+              handleDelete={props.handleDelete}
+              name={formName.place}
+              modifier={['flat']}
+            />
+          </FlexInput>
+          <FlexInput value={props.values.url}>
             <LinkIcon />
-          </IconInput>
-          <IconInput
-            value={props.values.description}
-            placeholder="説明を追加"
-            handleChange={props.handleChange}
-            handleDelete={props.handleDelete}
-            name={FormName.description}
-          >
+            <Input
+              value={props.values.url}
+              placeholder="URLを追加"
+              handleChange={props.handleChange}
+              handleDelete={props.handleDelete}
+              name={formName.url}
+              modifier={['flat']}
+            />
+          </FlexInput>
+          <FlexInput value={props.values.description}>
             <SubjectIcon />
-          </IconInput>
+            <Input
+              value={props.values.description}
+              placeholder="メモを追加"
+              handleChange={props.handleChange}
+              handleDelete={props.handleDelete}
+              name={formName.description}
+              modifier={['flat']}
+            />
+          </FlexInput>
+          <FlexInput value={props.values.place}>
+            <RoomIcon />
+            <Input
+              value={props.values.place}
+              placeholder="場所を追加"
+              handleChange={props.handleChange}
+              handleDelete={props.handleDelete}
+              name={formName.place}
+              modifier={['flat']}
+            />
+          </FlexInput>
+          <InputFile ref={ref} />
         </div>
         <div className="bottom">
           <Button
@@ -235,11 +273,11 @@ const Component: React.FC<Props> = props => (
       />
     </Modal>
   </>
-);
+));
 
 //______________________________________________________
 //
-// @ StyledComponent
+// @StyledComponent
 const StyledComponent = styled(Component)`
 
     > .inner {
