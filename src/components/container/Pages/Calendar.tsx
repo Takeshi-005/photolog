@@ -73,12 +73,12 @@ export const Component: React.FC<Props> = props => (
     <div className={props.className}>
       <div className="head">
         <div className="box">
-          <Button types="simple" handleClick={props.handlePrev}>
+          <PrevButton types="simple" handleClick={props.handlePrev}>
             <ArrowLeftIcon />
-          </Button>
-          <Button types="simple" handleClick={props.handleNext}>
+          </PrevButton>
+          <NextButton types="simple" handleClick={props.handleNext}>
             <ArrowRightIcon />
-          </Button>
+          </NextButton>
           <h1>
             {props.currents.year}年 {props.currents.month + 1}月
           </h1>
@@ -122,6 +122,16 @@ const StyledComponent = styled(Component)`
       }
     }
   }
+`;
+
+const PrevButton = styled(Button)`
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+`;
+
+const NextButton = styled(Button)`
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 `;
 
 export default Container;

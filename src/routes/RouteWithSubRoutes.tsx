@@ -13,7 +13,17 @@ export const RouteWithSubRoutes = (route: MyRouteProps) => {
         <Spinner />
       ) : (
         <>
+          {/* ログインが必要なコンテンツ */}
           {route.isAuth && currentUser === null ? (
+            <>
+              <Redirect
+                to={{
+                  pathname: '/'
+                }}
+              />
+            </>
+          ) : //ログイン状態では閲覧できないコンテンツ
+          !route.isAuth && currentUser ? (
             <>
               <Redirect
                 to={{

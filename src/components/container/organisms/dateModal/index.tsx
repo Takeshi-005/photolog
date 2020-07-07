@@ -5,6 +5,7 @@ import useModal, { State } from 'hooks/useModal';
 import FlexInput from '../../../presentational/molecules/FlexInput';
 import DateContainer from './DateContainer';
 import DateInput from './DateInput';
+import ImgPreview from './ImgPreview';
 import ConfirmModal from './ConfirmModal';
 import Modal from 'components/presentational/molecules/Modal';
 import Input from 'components/presentational/atoms/Input';
@@ -16,6 +17,7 @@ import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
 import SubjectIcon from '@material-ui/icons/Subject';
 import dateFormat from 'utils/dateFormat';
+import compressor from 'utils/compressor';
 
 // ______________________________________________________
 //
@@ -28,10 +30,12 @@ const formName = {
   url: 'url',
   description: 'description',
   genre: 'genre',
-  image: 'image'
+  images: 'images'
 } as const;
 
-const initialState: { [key in FormName]: string } = {
+const initialState: {
+  [key in FormName]: key extends 'images' ? Blob[] : string;
+} = {
   startDate: '',
   endDate: '',
   title: '',
@@ -39,7 +43,7 @@ const initialState: { [key in FormName]: string } = {
   url: '',
   description: '',
   genre: '',
-  image: ''
+  images: []
 };
 
 const options = {
@@ -52,7 +56,6 @@ const options = {
 //
 // @Types
 type ContainerProps = {
-  className?: string;
   modalState: State;
   date: Date;
   closeModal: () => void;
@@ -66,11 +69,13 @@ type Props = ContainerProps & {
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleCloseModal: () => void;
   handleAllCloseModal: () => void;
+  handleFileChange: () => void;
   useModal: {
     modalState: State;
     openModal: () => void;
     closeModal: () => void;
   };
+  className?: string;
 };
 type FormName = keyof typeof formName;
 
@@ -102,16 +107,35 @@ const Container: React.FC<ContainerProps> = props => {
   const handleChange = React.useCallback((name: string, value: string) => {
     setValue(values => {
       const newValues = { ...values };
-      newValues[name as FormName] = value;
+      newValues[name as Exclude<FormName, 'images'>] = value;
 
       return newValues;
     });
   }, []);
 
-  const handleDelete = React.useCallback((name: string) => {
+  const handleFileChange = React.useCallback(async () => {
+    let result: Blob[] = [];
+    if (ref.current && ref.current.files) {
+      const files = Array.from(ref.current.files);
+      result = await Promise.all(files.map(file => compressor(file)));
+    }
+    setValue(values => {
+      const newValues = { ...values };
+      newValues[formName.images] = result;
+
+      return newValues;
+    });
+  }, [ref]);
+
+  const handleDelete = React.useCallback((str: string) => {
+    const name = str as FormName;
     setValue(form => {
       const newValues = { ...form };
-      newValues[name as FormName] = '';
+      if (name === 'images') {
+        newValues[name] = [];
+      } else {
+        newValues[name] = '';
+      }
 
       return newValues;
     });
@@ -121,6 +145,7 @@ const Container: React.FC<ContainerProps> = props => {
     if (values.title !== '') {
       openModal();
     } else {
+      setValue(initialState);
       props.closeModal();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,6 +175,7 @@ const Container: React.FC<ContainerProps> = props => {
       handleSubmit={handleSubmit}
       handleCloseModal={handleCloseModal}
       handleAllCloseModal={handleAllCloseModal}
+      handleFileChange={handleFileChange}
       useModal={{
         modalState,
         openModal,
@@ -244,7 +270,19 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               modifier={['flat']}
             />
           </FlexInput>
-          <InputFile ref={ref} />
+          <div className="photo-box">
+            {!props.values.images[0] && (
+              <InputFile ref={ref} handleChange={props.handleFileChange} />
+            )}
+            {props.values.images.map((image, i) => (
+              <ImgPreview
+                key={i}
+                file={image}
+                name={formName.images}
+                handleDelete={props.handleDelete}
+              />
+            ))}
+          </div>
         </div>
         <div className="bottom">
           <Button
@@ -282,6 +320,10 @@ const StyledComponent = styled(Component)`
 
     > .inner {
       margin-top: 16px;
+
+      .photo-box {
+
+      }
     }
 
     > .bottom {

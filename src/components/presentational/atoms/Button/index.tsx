@@ -35,8 +35,11 @@ export type ButtonType = keyof typeof BUTTON_TYPE;
 type Props = {
   /** 表示するテキスト */
   text?: string;
+  /** ボタンタイプ */
   types?: ButtonType;
+  /** CSS拡張 */
   style?: React.CSSProperties;
+  /** onClick Event */
   handleClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   /** styled-components */
   className?: string;
