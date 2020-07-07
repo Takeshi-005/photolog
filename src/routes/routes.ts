@@ -44,7 +44,7 @@ export const routes: MyRouteProps[] = [
   {
     path: PAGE_PATH.calendar,
     exact: true,
-    // isAuth: true,
+    isAuth: true,
     component: Calendar,
     naviText: 'カレンダー'
   }

@@ -16,8 +16,8 @@ const formName = {
 } as const;
 
 const initilstate: { [key in Form]: string } = {
-  email: 'takesi.odaka@gmail.com',
-  password: 'testtest11'
+  email: '',
+  password: ''
 };
 
 // ______________________________________________________

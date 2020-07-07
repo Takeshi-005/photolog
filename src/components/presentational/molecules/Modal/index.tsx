@@ -73,7 +73,7 @@ export default styled(AnimatedComponent)`
 
   > .content {
     width: ${props => props.style?.width ?? '560px'};
-    height: ${props => props.style?.height ?? '400px'};
+    height: ${props => props.style?.height ?? 'auto'};
     border-radius: 8px;
     background: #fff;
     padding: 16px;

@@ -39,7 +39,8 @@
     "lint": "eslint --ext ./ 'src/**/*.{js,jsx,ts,tsx}' --quiet --fix; exit:0",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "deploy": "firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
