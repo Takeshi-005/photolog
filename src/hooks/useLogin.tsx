@@ -6,9 +6,15 @@ const useLogin = () => {
 
   const handleLogin = React.useCallback((email: string, password: string) => {
     setisLoading(true);
+    console.log(email);
+    console.log(password);
+
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(
+        email.toString().trim(),
+        password.toString().trim()
+      )
       .then(() => {
         setisLoading(false);
       })

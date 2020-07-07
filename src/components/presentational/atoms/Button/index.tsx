@@ -43,26 +43,27 @@ type Props = {
   handleClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   /** styled-components */
   className?: string;
+  value?: string;
 };
 
 //______________________________________________________
 //
 // @ Component
-export const Component: React.FC<Props> = React.memo(
-  props => {
-    return (
-      <StyledComponent
-        {...props}
-        onClick={props.handleClick}
-        disabled={props.types === 'disabled' ? true : false}
-      >
-        {props.children}
-        {props.text}
-      </StyledComponent>
-    );
-  },
-  (p, n) => p.text === n.text && p.types === n.types
-);
+export const Component: React.FC<Props> = props => {
+  //React.memo(
+  return (
+    <StyledComponent
+      {...props}
+      onClick={props.handleClick}
+      disabled={props.types === 'disabled' ? true : false}
+    >
+      {props.children}
+      {props.text}
+    </StyledComponent>
+  );
+};
+// (p, n) => p.text === n.text && p.types === n.types && p.value === n.value
+// );
 
 //______________________________________________________
 //

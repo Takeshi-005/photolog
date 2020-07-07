@@ -60,6 +60,7 @@ const Container: React.FC<ContainerProps> = props => {
   }, []);
 
   const handleSubmit = React.useCallback(() => {
+    console.log(values);
     if (props.location.pathname === PAGE_PATH.login)
       handleLogin(values.email, values.password);
     else handleSignup(values.email, values.password);
