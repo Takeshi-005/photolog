@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import useAuth from './useAuth';
+import useHooks from './hooks';
 
-export const Context = createContext<ReturnType<typeof useAuth>>({
+export const Context = createContext<ReturnType<typeof useHooks>>({
   currentUser: undefined
 });

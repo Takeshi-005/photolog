@@ -69,7 +69,7 @@ const useCalendar = (date = new Date()) => {
           const date = moment(currents).add(month, 'month');
 
           return moment(
-            `${date.year()}-${date.month() + 1}-${day} ${currents.getHours() +
+            `${date.year()}/${date.month() + 1}/${day} ${currents.getHours() +
               1}:00`
           ).toDate();
         })

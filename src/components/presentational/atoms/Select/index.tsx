@@ -19,7 +19,7 @@ type Props = {
 // @Component
 export const Component: React.FC<Props> = React.memo(
   props => (
-    <div className={props.className}>
+    <StyledComponent {...props}>
       <BaseInput
         as="select"
         name={props.name}
@@ -34,7 +34,7 @@ export const Component: React.FC<Props> = React.memo(
           </option>
         ))}
       </BaseInput>
-    </div>
+    </StyledComponent>
   ),
   (p, n) => p.value === n.value
 );
@@ -42,7 +42,7 @@ export const Component: React.FC<Props> = React.memo(
 //______________________________________________________
 //
 // @StyledComponent
-export default styled(Component)`
+const StyledComponent = styled.div<Props>`
   position: relative;
 
   &:before {
@@ -71,3 +71,5 @@ export default styled(Component)`
     }
   }
 `;
+
+export default Component;

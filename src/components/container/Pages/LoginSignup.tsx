@@ -7,6 +7,7 @@ import Button from 'components/presentational/atoms/Button';
 import useLogin from 'hooks/useLogin';
 import useCreateUser from 'hooks/useCreateUser';
 import { PAGE_PATH } from 'constants/path';
+import { DEVICE } from 'styles/style';
 // ______________________________________________________
 //
 // @ Constants
@@ -16,8 +17,8 @@ const formName = {
 } as const;
 
 const initilstate: { [key in Form]: string } = {
-  email: '',
-  password: ''
+  email: 'takesi.odaka@gmail.com',
+  password: 'testtest11'
 };
 
 // ______________________________________________________
@@ -31,6 +32,10 @@ type Props = ContainerProps & {
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
   handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  text: {
+    h1: string;
+    button: string;
+  };
 };
 
 // ______________________________________________________
@@ -60,7 +65,6 @@ const Container: React.FC<ContainerProps> = props => {
   }, []);
 
   const handleSubmit = React.useCallback(() => {
-    console.log(values);
     if (props.location.pathname === PAGE_PATH.login)
       handleLogin(values.email, values.password);
     else handleSignup(values.email, values.password);
@@ -74,6 +78,16 @@ const Container: React.FC<ContainerProps> = props => {
       handleChange={handleChange}
       handleDelete={handleDelete}
       handleSubmit={handleSubmit}
+      text={{
+        h1:
+          props.location.pathname === PAGE_PATH.login
+            ? 'ログイン'
+            : 'サインアップ',
+        button:
+          props.location.pathname === PAGE_PATH.login
+            ? 'ログインする'
+            : '登録する'
+      }}
     />
   );
 };
@@ -83,6 +97,7 @@ const Container: React.FC<ContainerProps> = props => {
 // @ Component
 const Component: React.FC<Props> = props => (
   <div className={props.className}>
+    <h1 className="title">{props.text.h1}</h1>
     <FlexInput value={props.values.email}>
       <Input
         handleChange={props.handleChange}
@@ -105,7 +120,7 @@ const Component: React.FC<Props> = props => (
     </FlexInput>
     <div className="submit-area">
       <Button
-        text="登録する"
+        text={props.text.button}
         types="primary"
         handleClick={props.handleSubmit}
         style={{ width: '100%' }}
@@ -120,6 +135,14 @@ const Component: React.FC<Props> = props => (
 const StyledComponent = styled(Component)`
   width: 500px;
   margin: 0 auto;
+  @media ${DEVICE.mobile} {
+    width: 100%;
+    padding: 0 8px;
+  }
+
+  > .title {
+    font-size: 24px;
+  }
 
   > .submit-area {
     margin-top: 16px;

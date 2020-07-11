@@ -1,13 +1,13 @@
 import React from 'react';
 import { Context } from './context';
-import useAuth from './useAuth';
+import useHooks from './hooks';
 
 // ______________________________________________________
 //
 // @ Types
 
 const AuthProvider: React.FC = props => {
-  const { currentUser } = useAuth();
+  const { currentUser } = useHooks();
 
   return (
     <Context.Provider value={{ currentUser }}>
@@ -15,5 +15,7 @@ const AuthProvider: React.FC = props => {
     </Context.Provider>
   );
 };
+
+export const useAuth = () => React.useContext(Context);
 
 export default AuthProvider;

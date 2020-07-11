@@ -3,7 +3,7 @@ import { text } from '@storybook/addon-knobs';
 import Component from '.';
 
 export default {
-  title: 'Input',
+  title: 'atoms/Input',
   component: Component
 };
 

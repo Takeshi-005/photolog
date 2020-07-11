@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { COLOR } from 'styles/style';
 
 // ______________________________________________________
 //
@@ -12,15 +13,17 @@ type Props = {
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = React.memo(
-  props => <p className={props.className}>{props.text}</p>,
+export const Component: React.FC<Props> = React.memo(
+  props => <StyledComponent {...props}>{props.text}</StyledComponent>,
   (p, n) => p.text === n.text
 );
 
 //______________________________________________________
 //
 // @ StyledComponent
-export default styled(Component)`
-  color: #fff;
+const StyledComponent = styled.p<Props>`
+  color: ${COLOR.emphasis};
   font-weight: 700;
 `;
+
+export default Component;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { State } from 'hooks/useModal';
 import { Transition } from 'react-spring/renderprops';
+import { DEVICE } from 'styles/style';
 
 // ______________________________________________________
 //
@@ -29,7 +30,10 @@ const Component: React.FC<Props> = React.memo(props => (
   </div>
 ));
 
-export const AnimatedComponent: React.FC<ContainerProps> = props => {
+//______________________________________________________
+//
+// @ AnimatedComponent
+const AnimatedComponent: React.FC<ContainerProps> = props => {
   return (
     <Transition
       config={{ duration: 200 }}
@@ -79,6 +83,9 @@ export default styled(AnimatedComponent)`
     padding: 16px;
     position: relative;
     z-index: 101;
+    @media ${DEVICE.mobile} {
+      width: 100%;
+    }
   }
 
   > .overlay {

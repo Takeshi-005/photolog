@@ -49,6 +49,7 @@ const StyledComponent = styled(Component)`
   position: relative;
   border: 1px solid ${COLOR.border};
   border-radius: 4px;
+  object-fit: cover;
   > svg {
     position: absolute;
     right: 0;

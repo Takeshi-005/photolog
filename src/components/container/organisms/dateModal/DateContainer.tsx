@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import { COLOR } from 'styles/style';
+import { COLOR, DEVICE } from 'styles/style';
 
 // ______________________________________________________
 //
@@ -26,6 +26,9 @@ const Component: React.FC<Props> = props => (
 export default styled(Component)`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  @media ${DEVICE.mobile} {
+  }
 
   > svg {
     fill: ${COLOR.primary};

@@ -2,7 +2,7 @@ import React from 'react';
 import Component from '.';
 
 export default {
-  title: 'Spinner',
+  title: 'atoms/Spinner',
   component: Component
 };
 

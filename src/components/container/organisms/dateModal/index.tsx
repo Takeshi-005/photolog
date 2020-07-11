@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
+// import moment from 'moment';
 import useModal, { State } from 'hooks/useModal';
+import useMedia from 'hooks/useMedia';
 import FlexInput from '../../../presentational/molecules/FlexInput';
 import DateContainer from './DateContainer';
 import DateInput from './DateInput';
@@ -15,6 +16,7 @@ import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
 import AlbumIcon from '@material-ui/icons/Album';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
+import PaymentIcon from '@material-ui/icons/Payment';
 import SubjectIcon from '@material-ui/icons/Subject';
 import dateFormat from 'utils/dateFormat';
 import compressor from 'utils/compressor';
@@ -24,12 +26,13 @@ import compressor from 'utils/compressor';
 // @Constants
 const formName = {
   startDate: 'startDate',
-  endDate: 'endDate',
+  // endDate: 'endDate',
   title: 'title',
   place: 'place',
   url: 'url',
   description: 'description',
   genre: 'genre',
+  price: 'primce',
   images: 'images'
 } as const;
 
@@ -37,12 +40,13 @@ const initialState: {
   [key in FormName]: key extends 'images' ? Blob[] : string;
 } = {
   startDate: '',
-  endDate: '',
+  // endDate: '',
   title: '',
   place: '',
   url: '',
   description: '',
   genre: '',
+  price: '',
   images: []
 };
 
@@ -75,6 +79,7 @@ type Props = ContainerProps & {
     openModal: () => void;
     closeModal: () => void;
   };
+  isMobile: boolean;
   className?: string;
 };
 type FormName = keyof typeof formName;
@@ -83,14 +88,15 @@ type FormName = keyof typeof formName;
 //
 // @Container
 const Container: React.FC<ContainerProps> = props => {
-  const end = (date: Date) => {
-    return moment(date)
-      .add(1, 'hour')
-      .toDate();
-  };
+  // const end = (date: Date) => {
+  //   return moment(date)
+  //     .add(1, 'hour')
+  //     .toDate();
+  // };
 
   const { modalState, openModal, closeModal } = useModal();
   const ref = React.createRef<HTMLInputElement>();
+  const { isMobile } = useMedia();
 
   const [values, setValue] = React.useState(initialState);
 
@@ -98,7 +104,7 @@ const Container: React.FC<ContainerProps> = props => {
     setValue(values => {
       const newValues = { ...values };
       newValues['startDate'] = dateFormat(props.date);
-      newValues['endDate'] = dateFormat(end(props.date));
+      // newValues['endDate'] = dateFormat(end(props.date));
 
       return newValues;
     });
@@ -181,6 +187,7 @@ const Container: React.FC<ContainerProps> = props => {
         openModal,
         closeModal
       }}
+      isMobile={isMobile}
       ref={ref}
     />
   );
@@ -209,13 +216,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               value={props.values.startDate}
               handleChange={props.handleChange}
             />
-            〜
-            <DateInput
-              name={formName.endDate}
-              tooltip="end"
-              value={props.values.endDate}
-              handleChange={props.handleChange}
-            />
           </DateContainer>
           <FlexInput value={props.values.place}>
             <AlbumIcon />
@@ -234,6 +234,17 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.place}
+              modifier={['flat']}
+            />
+          </FlexInput>
+          <FlexInput value={props.values.price}>
+            <PaymentIcon />
+            <Input
+              value={props.values.place}
+              placeholder="金額を追加"
+              handleChange={props.handleChange}
+              handleDelete={props.handleDelete}
+              name={formName.price}
               modifier={['flat']}
             />
           </FlexInput>
@@ -256,17 +267,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.description}
-              modifier={['flat']}
-            />
-          </FlexInput>
-          <FlexInput value={props.values.place}>
-            <RoomIcon />
-            <Input
-              value={props.values.place}
-              placeholder="場所を追加"
-              handleChange={props.handleChange}
-              handleDelete={props.handleDelete}
-              name={formName.place}
               modifier={['flat']}
             />
           </FlexInput>

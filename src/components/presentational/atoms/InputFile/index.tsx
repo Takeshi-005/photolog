@@ -7,9 +7,11 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 //
 // @Types
 type Props = {
-  className?: string;
+  /** ファイル種類指定 */
   accept?: string;
+  /** 複数ファイル選択 */
   multiple?: boolean;
+  className?: string;
   handleChange?: () => void;
 };
 
@@ -18,7 +20,7 @@ type Props = {
 // @Component
 export const Component = React.forwardRef<HTMLInputElement, Props>(
   (props, ref) => (
-    <label className={props.className}>
+    <StyledComponent {...props}>
       <input
         type="file"
         onChange={props.handleChange}
@@ -27,14 +29,14 @@ export const Component = React.forwardRef<HTMLInputElement, Props>(
         multiple={props.multiple ?? false}
       />
       <AddAPhotoIcon />
-    </label>
+    </StyledComponent>
   )
 );
 
 //______________________________________________________
 //
 // @StyledComponent
-export default styled(Component)`
+const StyledComponent = styled.label<Props>`
   width: 50px;
   height: 50px;
   display: flex;
@@ -52,3 +54,5 @@ export default styled(Component)`
     display: none;
   }
 `;
+
+export default Component;

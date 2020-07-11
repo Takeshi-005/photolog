@@ -5,7 +5,7 @@ import Input from 'components/presentational/atoms/Input';
 import Calendar from 'components/presentational/molecules/Calendar';
 import useCalendar from 'hooks/useCalendar';
 import dateFormat from 'utils/dateFormat';
-import { COLOR } from 'styles/style';
+import { COLOR, DEVICE } from 'styles/style';
 
 // ______________________________________________________
 //
@@ -90,11 +90,11 @@ const Component: React.FC<Props> = props => (
       </ReactTooltip>
       {/* )} */}
     </div>
-    <Input
+    {/* <Input
       value={props.start.time}
       modifier={['flat', 'notDelIcon']}
       style={{ width: '65px' }}
-    />
+    /> */}
   </div>
 );
 
@@ -103,6 +103,9 @@ const Component: React.FC<Props> = props => (
 // @ StyledComponent
 const StyledComponent = styled(Component)`
   display: flex;
+  @media ${DEVICE.mobile} {
+    width: calc(100% - 40px);
+  }
 
   > .date {
     position: relative;
