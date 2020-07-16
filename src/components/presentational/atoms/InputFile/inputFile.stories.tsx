@@ -3,7 +3,8 @@ import Component from '.';
 
 export default {
   title: 'atoms/InputFile',
-  component: Component
+  component: Component,
+  parameters: { fileName: __filename }
 };
 
 export const InputFile = () => (

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots atoms/Spinner Spinner 1`] = `
+<img
+  alt="spinner"
+  className="sc-AxheI gpOuRl"
+  src="spinner.svg"
+/>
+`;

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots atoms/ErrorMessage Error Message 1`] = `
+Array [
+  <h1>
+    エラーメッセージ
+  </h1>,
+  <p
+    className="sc-AxirZ kemhsg"
+  >
+    error message
+  </p>,
+]
+`;

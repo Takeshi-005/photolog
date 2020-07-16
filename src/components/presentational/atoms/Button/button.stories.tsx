@@ -4,7 +4,8 @@ import Component, { ButtonType } from '.';
 
 export default {
   title: 'atoms/Button',
-  component: Component
+  component: Component,
+  parameters: { fileName: __filename }
 };
 
 export const Button = () => (

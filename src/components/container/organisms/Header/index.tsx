@@ -9,46 +9,83 @@ import Drawer from 'components/presentational/molecules/Drawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import useMedia from 'hooks/useMedia';
 import { DEVICE } from 'styles/style';
+import { Context as AuthContext } from 'hooks/useAuth/context';
+import useLogin from 'hooks/useLogin';
+
 //______________________________________________________
 //
 // @Types
 
-type Props = { className?: string };
+type Props = {
+  openDrawer: (passVals?: {}) => void;
+  closeDrawer: () => void;
+  handleLogout: () => void;
+  isOpen: boolean;
+  isMobile: boolean;
+  currentUser: firebase.User | null | undefined;
+  className?: string;
+};
 
-//______________________________________________________
+// ______________________________________________________
 //
-// @Component
-export const Component: React.FC<Props> = props => {
-  const { drawerState, closeDrawer, drawerContent, openDrawer } = useDrawer(
-    DrawerContent,
-    false
-  );
+// @ Container
+const Container: React.FC = () => {
+  const { drawerState, closeDrawer, openDrawer } = useDrawer(false);
   const { isMobile } = useMedia();
+  const { currentUser } = React.useContext(AuthContext);
+  const { handleLogout } = useLogin();
 
   return (
-    <header className={props.className}>
-      <MenuIcon className="hamburger" onClick={openDrawer} />
-      {!isMobile && (
-        <div className="button">
-          <Button>
-            <Link to={PAGE_PATH.login}>Login</Link>
-          </Button>
-          <Button>
-            <Link to={PAGE_PATH.signup}>Signup</Link>
-          </Button>
-        </div>
-      )}
-      <Drawer isOpen={drawerState.isOpen} handleClose={closeDrawer}>
-        {drawerContent}
-      </Drawer>
-    </header>
+    <StyledComponent
+      openDrawer={openDrawer}
+      closeDrawer={closeDrawer}
+      isOpen={drawerState.isOpen}
+      isMobile={isMobile}
+      currentUser={currentUser}
+      handleLogout={handleLogout}
+    />
   );
 };
 
 //______________________________________________________
 //
+// @Component
+export const Component: React.FC<Props> = props => (
+  <header className={props.className}>
+    <MenuIcon className="hamburger" onClick={props.openDrawer} />
+    {!props.isMobile && (
+      <>
+        <div className="button">
+          {!props.currentUser ? (
+            <>
+              <Button>
+                <Link to={PAGE_PATH.login}>Login</Link>
+              </Button>
+              <Button>
+                <Link to={PAGE_PATH.signup}>Signup</Link>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button>
+                <Link to={PAGE_PATH.calendar}>Calendar</Link>
+              </Button>
+              <Button handleClick={props.handleLogout} text="ログアウト" />
+            </>
+          )}
+        </div>
+      </>
+    )}
+    <Drawer isOpen={props.isOpen} handleClose={props.closeDrawer}>
+      <DrawerContent />
+    </Drawer>
+  </header>
+);
+
+//______________________________________________________
+//
 // @StyledComponent
-const styledComponent = styled(Component)`
+const StyledComponent = styled(Component)`
   position: relative;
   width: 100%;
   height: 100px;
@@ -80,4 +117,4 @@ const styledComponent = styled(Component)`
   }
 `;
 
-export default styledComponent;
+export default Container;

@@ -52,16 +52,18 @@ const useCalendar = (date = new Date()) => {
       range(5).map(weekIndex =>
         range(7).map(dayIndex => {
           const i = 7 * weekIndex + dayIndex - firstWeekDay;
-          const count = 7 * weekIndex + dayIndex;
           let month = 0;
           let day = 0;
 
           if (weekIndex === 0 && dayIndex < firstWeekDay) {
             month = -1;
             day = lastMonthDay - firstWeekDay + dayIndex + 1;
-          } else if (numOfMonth < count) {
+          } else if (numOfMonth <= i) {
             month = 1;
-            day = count - numOfMonth;
+            console.log(i);
+            console.log(numOfMonth);
+
+            day = i - numOfMonth + 1;
           } else {
             day = daysOfMonth[i];
           }

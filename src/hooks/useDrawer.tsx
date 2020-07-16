@@ -8,17 +8,10 @@
   } = useDrawer(DrawerContents, false)
 */
 
-import { useState, useCallback, FunctionComponent } from 'react';
+import { useState, useCallback } from 'react';
 import { getDocumentScroll } from 'utils/getDocumentScroll';
 
-export interface Props {
-  passVals: {};
-}
-
-const useDrawer = (
-  drawerContent: FunctionComponent<Props>,
-  isOpen: boolean
-) => {
+const useDrawer = (isOpen: boolean) => {
   const [drawerState, updateDrawerState] = useState({
     isOpen: isOpen || false,
     passVals: {},
@@ -55,9 +48,6 @@ const useDrawer = (
     openDrawer,
     closeDrawer,
     toggleDrawer,
-    drawerContent: drawerContent({
-      passVals: drawerState.passVals
-    }),
     drawerState
   };
 };

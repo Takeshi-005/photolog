@@ -24,8 +24,8 @@ type Props = {
 //______________________________________________________
 //
 // @ Component
-const Component: React.FC<Props> = props => (
-  <div className={props.className}>
+export const Component: React.FC<Props> = props => (
+  <StyledComponent {...props}>
     <div className="inner">
       <DayOfWeek
         days={['日', '月', '火', '水', '木', '金', '土']}
@@ -47,10 +47,13 @@ const Component: React.FC<Props> = props => (
         </WeekElement>
       ))}
     </div>
-  </div>
+  </StyledComponent>
 );
 
-export default styled(Component)`
+//______________________________________________________
+//
+// @ StyledComponent
+const StyledComponent = styled.div<Props>`
   background: #fff;
   ${props =>
     props.type !== 'input' &&
@@ -70,3 +73,5 @@ export default styled(Component)`
       `}
   }
 `;
+
+export default Component;

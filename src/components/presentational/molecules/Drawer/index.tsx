@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 // @ Types
 type ContainerProps = {
   isOpen: boolean;
-  handleClose: () => void;
+  handleClose?: () => void;
 };
 
 type Props = ContainerProps & {
