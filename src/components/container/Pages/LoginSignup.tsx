@@ -17,8 +17,8 @@ const formName = {
 } as const;
 
 const initilstate: { [key in Form]: string } = {
-  email: 'takesi.odaka@gmail.com',
-  password: 'testtest11'
+  email: '',
+  password: ''
 };
 
 // ______________________________________________________
@@ -65,9 +65,9 @@ const Container: React.FC<ContainerProps> = props => {
   }, []);
 
   const handleSubmit = React.useCallback(() => {
-    if (props.location.pathname === PAGE_PATH.login)
+    if (props.location.pathname === PAGE_PATH.login) {
       handleLogin(values.email, values.password);
-    else handleSignup(values.email, values.password);
+    } else handleSignup(values.email, values.password);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.path, values.email, values.password]);
 

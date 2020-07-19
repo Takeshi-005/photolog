@@ -2,6 +2,9 @@
   "name": "zipcode",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
@@ -42,7 +45,8 @@
     "lint": "eslint --ext ./ 'src/**/*.{js,jsx,ts,tsx}' --quiet --fix; exit:0",
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "deploy": "firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,6 +63,7 @@
     "@babel/plugin-proposal-optional-chaining": "7.9.0",
     "@babel/preset-env": "7.4.5",
     "@babel/preset-typescript": "7.3.3",
+    "@firebase/testing": "^0.20.7",
     "@storybook/addon-a11y": "^5.3.19",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-docs": "^5.3.19",
@@ -83,6 +88,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "firebase-tools": "^8.6.0",
     "husky": "^2.7.0",
     "prettier": "^1.18.2",
     "react-docgen-typescript-loader": "^3.7.2",

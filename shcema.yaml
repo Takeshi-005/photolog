@@ -1,0 +1,8 @@
+Firesstoreのドキュメントモデル
+
+users:
+  documentID: userID
+
+  name: String?
+  createdAt: Date
+  updateedAt: Date
