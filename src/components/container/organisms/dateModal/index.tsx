@@ -12,7 +12,8 @@ import Modal from 'components/presentational/molecules/Modal';
 import Input from 'components/presentational/atoms/Input';
 import Select from 'components/presentational/atoms/Select';
 import InputFile from 'components/presentational/atoms/InputFile';
-import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
+import Primary from 'components/presentational/atoms/Button/Primary';
+import Disabled from 'components/presentational/atoms/Button/Disabled';
 import AlbumIcon from '@material-ui/icons/Album';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
@@ -285,16 +286,19 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
           </div>
         </div>
         <div className="bottom">
-          <Button
-            text="保存する"
-            types={
-              `${
-                props.values.title !== '' ? 'primary' : 'disabled'
-              }` as keyof typeof BUTTON_TYPE
-            }
-            style={{ width: '100px' }}
-            handleClick={props.handleSubmit}
-          />
+          {props.values.title !== '' ? (
+            <Primary
+              text="保存する"
+              style={{ width: '100px' }}
+              handleClick={props.handleSubmit}
+            />
+          ) : (
+            <Disabled
+              text="保存する"
+              style={{ width: '100px' }}
+              handleClick={props.handleSubmit}
+            />
+          )}
         </div>
       </div>
     </Modal>

@@ -2,15 +2,16 @@
 
 exports[`Storyshots atoms/Input Input 1`] = `
 <div
-  className="sc-AxhCb jAmkDx"
+  className="sc-AxheI ckzerc"
   name="name"
   placeholder="プレースホルダー"
   value="value"
 >
   <input
-    className="sc-AxiKw jalGPn"
+    className="sc-AxgMl bodgec"
     data-tip={true}
     onChange={[Function]}
+    onKeyPress={[Function]}
     placeholder="プレースホルダー"
     type="text"
     value="value"

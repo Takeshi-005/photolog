@@ -3,7 +3,7 @@ import { boolean } from '@storybook/addon-knobs';
 import Component from '.';
 
 export default {
-  title: 'molecules/Modal',
+  title: 'molecules/ModalDontTest',
   component: Component,
   parameters: { fileName: __filename }
 };

@@ -16,6 +16,7 @@ export type Props = {
   handleDelete?: (name: string) => void;
   handleFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  handleKeyPress?: () => void;
   placeholder?: string;
   /** react-tooltip で使用する */
   dataFor?: string;
@@ -45,6 +46,12 @@ export const Component: React.FC<Props> = React.memo(
           props.handleChange &&
           props.handleChange(props.name ?? '', e.currentTarget.value)
         }
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            props.handleKeyPress && props.handleKeyPress();
+          }
+        }}
         onFocus={props.handleFocus}
         onBlur={props.handleBlur}
       />

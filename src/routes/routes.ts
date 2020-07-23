@@ -5,6 +5,7 @@ import { PAGE_PATH } from '../constants/path';
 // Pages
 import Home from 'components/container/Pages/Home';
 import Calendar from 'components/container/Pages/Calendar';
+import Profile from 'components/container/Pages/Profile';
 import LoginSingup from 'components/container/Pages/LoginSignup';
 
 type PropsWithRoutes = RouteComponentProps<{}> & {
@@ -47,5 +48,12 @@ export const routes: MyRouteProps[] = [
     isAuth: true,
     component: Calendar,
     naviText: 'カレンダー'
+  },
+  {
+    path: PAGE_PATH.profile,
+    exact: true,
+    isAuth: true,
+    component: Profile,
+    naviText: 'プロフィール'
   }
 ];

@@ -1,6 +1,6 @@
 import React from 'react';
 import { text } from '@storybook/addon-knobs';
-import Component from '.';
+import Component from './Primary';
 
 export default {
   title: 'atoms/Button',
@@ -8,7 +8,7 @@ export default {
   parameters: { fileName: __filename }
 };
 
-export const Common = () => (
+export const Primary = () => (
   <>
     <Component text={text('text', 'text')} />
   </>

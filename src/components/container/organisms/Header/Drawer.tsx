@@ -41,17 +41,25 @@ const Container: React.FC<ContainerProps> = props => {
 const Component: React.FC<Props> = props => (
   <div className={props.className}>
     {props.currentUser ? (
-      <ul>
-        <li>
-          <Link to={PAGE_PATH.calendar} onClick={props.closeDrawer}>
-            <span>カレンダー</span>
-            <em>ログを登録する</em>
-          </Link>
-        </li>
-        <li onClick={props.handleLogout}>
+      <>
+        <ul>
+          <li>
+            <Link to={PAGE_PATH.calendar} onClick={props.closeDrawer}>
+              <span>Calendar</span>
+              <em>ログを登録する</em>
+            </Link>
+          </li>
+          <li>
+            <Link to={PAGE_PATH.calendar} onClick={props.closeDrawer}>
+              <span>Profile</span>
+              <em>プロフィールを確認/変更する</em>
+            </Link>
+          </li>
+        </ul>
+        <div className="logout" onClick={props.handleLogout}>
           <span>ログアウト</span>
-        </li>
-      </ul>
+        </div>
+      </>
     ) : (
       <ul>
         <li>
@@ -76,8 +84,21 @@ const Component: React.FC<Props> = props => (
 // @ StyledComponent
 export const StyledComponent = styled(Component)`
   padding: 60px 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 100vh;
+
+  .logout {
+    margin-top: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid ${COLOR.border};
+  }
 
   > ul {
+    width: 100%;
     li {
       border-top: 1px solid ${COLOR.border};
 

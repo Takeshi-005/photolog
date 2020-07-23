@@ -3,7 +3,7 @@
 exports[`Storyshots atoms/Spinner Spinner 1`] = `
 <img
   alt="spinner"
-  className="sc-AxheI gpOuRl"
+  className="sc-fzozJi hFqWFe"
   src="spinner.svg"
 />
 `;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router-dom';
 import FlexInput from 'components/presentational/molecules/FlexInput';
 import Input from 'components/presentational/atoms/Input';
-import Button from 'components/presentational/atoms/Button';
+import Button from 'components/presentational/atoms/Button/Primary';
 import useLogin from 'hooks/useLogin';
 import useCreateUser from 'hooks/useCreateUser';
 import { PAGE_PATH } from 'constants/path';
@@ -31,7 +31,7 @@ type Props = ContainerProps & {
   values: typeof initilstate;
   handleChange: (name: string, value: string) => void;
   handleDelete: (name: string) => void;
-  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleSubmit: () => void;
   text: {
     h1: string;
     button: string;
@@ -102,6 +102,7 @@ const Component: React.FC<Props> = props => (
       <Input
         handleChange={props.handleChange}
         handleDelete={props.handleDelete}
+        handleKeyPress={props.handleSubmit}
         type="email"
         value={props.values.email}
         name={formName.email}
@@ -112,6 +113,7 @@ const Component: React.FC<Props> = props => (
       <Input
         handleChange={props.handleChange}
         handleDelete={props.handleDelete}
+        handleKeyPress={props.handleSubmit}
         type="password"
         value={props.values.password}
         name={formName.password}
@@ -121,7 +123,6 @@ const Component: React.FC<Props> = props => (
     <div className="submit-area">
       <Button
         text={props.text.button}
-        types="primary"
         handleClick={props.handleSubmit}
         style={{ width: '100%' }}
       />
