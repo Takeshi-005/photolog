@@ -6,3 +6,15 @@ users:
   name: String?
   createdAt: Date
   updateedAt: Date
+
+  logs:
+    documentID: auto
+    title: String
+    date: Date
+    createdAt: Date
+    updateedAt: Date
+    place: String?
+    price: String?
+    url: String?
+    memo: String?
+    imagesULR: String?

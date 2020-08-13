@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import FlexInput from 'components/presentational/molecules/FlexInput';
 import Input from 'components/presentational/atoms/Input';
 import Button from 'components/presentational/atoms/Button/Primary';
+import Lv1 from 'components/presentational/atoms/Heading/Lv1';
 import useLogin from 'hooks/useLogin';
 import useCreateUser from 'hooks/useCreateUser';
 import { PAGE_PATH } from 'constants/path';
@@ -97,7 +98,7 @@ const Container: React.FC<ContainerProps> = props => {
 // @ Component
 const Component: React.FC<Props> = props => (
   <div className={props.className}>
-    <h1 className="title">{props.text.h1}</h1>
+    <Lv1 text={props.text.h1} />
     <FlexInput value={props.values.email}>
       <Input
         handleChange={props.handleChange}
@@ -136,13 +137,11 @@ const Component: React.FC<Props> = props => (
 const StyledComponent = styled(Component)`
   width: 500px;
   margin: 0 auto;
+  padding: 20px;
+
   @media ${DEVICE.mobile} {
     width: 100%;
     padding: 0 8px;
-  }
-
-  > .title {
-    font-size: 24px;
   }
 
   > .submit-area {

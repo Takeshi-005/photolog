@@ -5,8 +5,9 @@ import { PAGE_PATH } from '../constants/path';
 // Pages
 import Home from 'components/container/Pages/Home';
 import Calendar from 'components/container/Pages/Calendar';
-import Profile from 'components/container/Pages/Profile';
+import Profile from 'components/container/Pages/User/Profile';
 import LoginSingup from 'components/container/Pages/LoginSignup';
+import NotFound from 'components/container/Pages/404';
 
 type PropsWithRoutes = RouteComponentProps<{}> & {
   routes: MyRouteProps[];
@@ -14,10 +15,10 @@ type PropsWithRoutes = RouteComponentProps<{}> & {
 
 export type MyRouteProps = RouteProps & {
   component: React.FC<PropsWithRoutes>;
+  path: string;
+  exact?: boolean;
   naviText?: string;
   isAuth?: boolean;
-  path: string;
-  exact: boolean;
   routes?: MyRouteProps[];
 };
 
@@ -52,8 +53,12 @@ export const routes: MyRouteProps[] = [
   {
     path: PAGE_PATH.profile,
     exact: true,
-    isAuth: true,
+    isAuth: false,
     component: Profile,
     naviText: 'プロフィール'
+  },
+  {
+    path: '*',
+    component: NotFound
   }
 ];

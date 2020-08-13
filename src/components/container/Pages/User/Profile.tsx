@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { RouteComponentProps } from 'react-router-dom';
-import Wrapper from 'components/container/organisms/Layout/Wrapper';
+
+import Wrapper from '../../organisms/Layout/Wrapper';
+import Lv1 from 'components/presentational/atoms/Heading/Lv1';
+import Button from 'components/presentational/atoms/Button';
+import { COLOR } from 'styles/style';
 
 // ______________________________________________________
 //
@@ -13,7 +17,7 @@ type Props = ContainerProps & {};
 //
 // @ Container
 const Container: React.FC<ContainerProps> = props => {
-  return <StyledComponent {...props} />;
+  return <Component {...props} />;
 };
 
 //______________________________________________________
@@ -21,24 +25,33 @@ const Container: React.FC<ContainerProps> = props => {
 // @ Component
 const Component: React.FC<Props> = props => (
   <Wrapper className={props.className}>
-    <h1>PhotoLog</h1>
-    <p className="text">お気に入りのアイテムやお店のログを残そう</p>
+    <Lv1 text="Profile" />
+    <dl>
+      <dt>ネーム</dt>
+      <dd></dd>
+    </dl>
+    <dl>
+      <dt>アイコン画像</dt>
+      <dd></dd>
+    </dl>
+    <Button className="btn" text="プロフィールを更新する" />
   </Wrapper>
 );
 
 //______________________________________________________
 //
 // @ StyledComponent
-const StyledComponent = styled(Component)`
-  > h1 {
-    font-weight: 700;
-    font-size: 40px;
-    text-align: center;
-  }
-
-  > .text {
+const StyledComponent = styled(Container)`
+  > dl {
+    border-bottom: 1px solid ${COLOR.border};
+    display: flex;
     font-size: 18px;
+    padding: 8px 0 4px;
+  }
+  > .btn {
+    margin-top: 20px;
+    display: inline-block;
   }
 `;
 
-export default Container;
+export default StyledComponent;

@@ -9,7 +9,7 @@ import DateInput from './DateInput';
 import ImgPreview from './ImgPreview';
 import ConfirmModal from './ConfirmModal';
 import Modal from 'components/presentational/molecules/Modal';
-import Input from 'components/presentational/atoms/Input';
+import Input from 'components/presentational/atoms/Input/Flat';
 import Select from 'components/presentational/atoms/Select';
 import InputFile from 'components/presentational/atoms/InputFile';
 import Primary from 'components/presentational/atoms/Button/Primary';
@@ -207,7 +207,9 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={formName.title}
-          modifier={['big']}
+          style={{
+            fontSize: '18px'
+          }}
         />
         <div className="inner">
           <DateContainer>
@@ -235,7 +237,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.place}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.price}>
@@ -246,7 +247,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.price}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.url}>
@@ -257,7 +257,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.url}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.description}>
@@ -268,7 +267,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.description}
-              modifier={['flat']}
             />
           </FlexInput>
           <div className="photo-box">

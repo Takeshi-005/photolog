@@ -58,18 +58,18 @@ export const Component: React.FC<Props> = props => (
         <div className="button">
           {!props.currentUser ? (
             <>
-              <Button>
-                <Link to={PAGE_PATH.login}>Login</Link>
-              </Button>
-              <Button>
-                <Link to={PAGE_PATH.signup}>Signup</Link>
-              </Button>
+              <Link to={PAGE_PATH.login}>
+                <Button>Login</Button>
+              </Link>
+              <Link to={PAGE_PATH.signup}>
+                <Button>Signup</Button>
+              </Link>
             </>
           ) : (
             <>
-              <Button>
-                <Link to={PAGE_PATH.calendar}>Calendar</Link>
-              </Button>
+              <Link to={PAGE_PATH.calendar}>
+                <Button>Calendar</Button>
+              </Link>
               <Button handleClick={props.handleLogout} text="ログアウト" />
             </>
           )}
@@ -111,7 +111,7 @@ const StyledComponent = styled(Component)`
     display: flex;
     align-items: center;
 
-    > button:first-child {
+    > a:first-child {
       margin-right: 10px;
     }
   }

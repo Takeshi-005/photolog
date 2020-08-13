@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
-import Input from 'components/presentational/atoms/Input';
+import Input from 'components/presentational/atoms/Input/Flat';
 import Calendar from 'components/presentational/molecules/Calendar';
 import useCalendar from 'hooks/useCalendar';
 import dateFormat from 'utils/dateFormat';
@@ -61,7 +61,7 @@ const Component: React.FC<Props> = props => (
     <div className="date">
       <Input
         value={props.start.date}
-        modifier={['flat', 'notDelIcon']}
+        modifier={['notDelIcon']}
         style={{ width: '145px' }}
         dataFor={props.tooltip}
         dataEvent="click"

@@ -3,5 +3,6 @@ export const PAGE_PATH = {
   signup: '/signup',
   login: '/login',
   calendar: '/calendar',
-  profile: '/profile'
+  profile: '/user/profile',
+  settingProfile: '/user/setting/profile'
 } as const;
