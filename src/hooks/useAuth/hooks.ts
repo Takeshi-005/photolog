@@ -9,9 +9,12 @@ const useHooks = () => {
 
   React.useEffect(() => {
     // Firebase Authのメソッド。ログイン状態が変化すると呼び出される
-    firebase.auth().onAuthStateChanged(user => {
-      setCurrentUser(user);
-    });
+    const unsubscribe = firebase
+      .auth()
+      .onAuthStateChanged(user => setCurrentUser(user));
+
+    // unsubscribe to the listener when unmounting
+    return () => unsubscribe();
   }, []);
 
   return {
