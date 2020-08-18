@@ -53,7 +53,7 @@ export const routes: MyRouteProps[] = [
   {
     path: PAGE_PATH.profile,
     exact: true,
-    isAuth: false,
+    isAuth: true,
     component: Profile,
     naviText: 'プロフィール'
   },

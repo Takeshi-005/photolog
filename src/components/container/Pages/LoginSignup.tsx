@@ -6,9 +6,9 @@ import Input from 'components/presentational/atoms/Input';
 import Button from 'components/presentational/atoms/Button/Primary';
 import Lv1 from 'components/presentational/atoms/Heading/Lv1';
 import useLogin from 'hooks/useLogin';
-import useCreateUser from 'hooks/useCreateUser';
 import { PAGE_PATH } from 'constants/path';
 import { DEVICE } from 'styles/style';
+import { createUser } from 'firestore/createUser';
 // ______________________________________________________
 //
 // @ Constants
@@ -45,7 +45,6 @@ type Props = ContainerProps & {
 const Container: React.FC<ContainerProps> = props => {
   const [values, setValues] = React.useState(initilstate);
   const { handleLogin } = useLogin();
-  const { handleSignup } = useCreateUser();
 
   const handleChange = React.useCallback((name: string, value: string) => {
     setValues(values => {
@@ -65,10 +64,16 @@ const Container: React.FC<ContainerProps> = props => {
     });
   }, []);
 
-  const handleSubmit = React.useCallback(() => {
+  const handleSubmit = React.useCallback(async () => {
     if (props.location.pathname === PAGE_PATH.login) {
-      handleLogin(values.email, values.password);
-    } else handleSignup(values.email, values.password);
+      handleLogin(values.email, values.password).then(() =>
+        props.history.replace(PAGE_PATH.calendar)
+      );
+    } else {
+      createUser(values.email, values.password).finally(() =>
+        props.history.replace(PAGE_PATH.calendar)
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.match.path, values.email, values.password]);
 
@@ -118,7 +123,7 @@ const Component: React.FC<Props> = props => (
         type="password"
         value={props.values.password}
         name={formName.password}
-        placeholder="8文字以上の半角英数字"
+        placeholder="6文字以上の半角英数字"
       />
     </FlexInput>
     <div className="submit-area">

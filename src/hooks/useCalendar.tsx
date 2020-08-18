@@ -49,7 +49,7 @@ const useCalendar = (date = new Date()) => {
       .date();
 
     setDates(
-      range(5).map(weekIndex =>
+      range(firstWeekDay > 5 ? 6 : 5).map(weekIndex =>
         range(7).map(dayIndex => {
           const i = 7 * weekIndex + dayIndex - firstWeekDay;
           let month = 0;

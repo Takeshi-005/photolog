@@ -48,7 +48,8 @@
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "deploy:rules": "firebase deploy --only firestore:rules"
   },
   "eslintConfig": {
     "extends": "react-app"
