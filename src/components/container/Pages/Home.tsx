@@ -21,7 +21,6 @@ const Container: React.FC<ContainerProps> = props => {
 // @ Component
 const Component: React.FC<Props> = props => (
   <Wrapper className={props.className}>
-    <h1>PhotoLog</h1>
     <p className="text">お気に入りのアイテムやお店のログを残そう</p>
   </Wrapper>
 );

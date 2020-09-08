@@ -9,6 +9,7 @@ export const createUser = async (
   await auth
     .createUserWithEmailAndPassword(email, password)
     .then(res => {
+      console.log(res);
       db.collection('users')
         .doc(res.user?.uid)
         .set({

@@ -8,7 +8,7 @@ import DrawerContent from './Drawer';
 import Drawer from 'components/presentational/molecules/Drawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import useMedia from 'hooks/useMedia';
-import { DEVICE } from 'styles/style';
+import { DEVICE, COLOR } from 'styles/style';
 import { Context as AuthContext } from 'hooks/useAuth/context';
 import useLogin from 'hooks/useLogin';
 
@@ -53,6 +53,9 @@ const Container: React.FC = () => {
 export const Component: React.FC<Props> = props => (
   <header className={props.className}>
     <MenuIcon className="hamburger" onClick={props.openDrawer} />
+    <h1>
+      <Link to={PAGE_PATH.root}>PhotoLog</Link>
+    </h1>
     {!props.isMobile && (
       <>
         <div className="button">
@@ -91,8 +94,18 @@ const StyledComponent = styled(Component)`
   height: 100px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 15px;
   transition: background-color 0.25s ease-in-out 0s, box-shadow, color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   @media ${DEVICE.mobile} {
     height: 60px;
+  }
+
+  > h1 {
+    font-size: 24px;
+    > a {
+      color: ${COLOR.text};
+    }
   }
 
   > .hamburger {

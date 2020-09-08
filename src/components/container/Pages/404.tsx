@@ -22,7 +22,6 @@ export const Component: React.FC<Props> = props => (
 );
 
 export default styled(Component)`
-  padding: 24px;
   font-size: 20px;
   display: flex;
   justify-content: center;
