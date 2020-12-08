@@ -77,7 +77,7 @@ export const Component: React.FC<Props> = props => (
       </>
     )}
     <Drawer isOpen={props.isOpen} handleClose={props.closeDrawer}>
-      <DrawerContent />
+      <DrawerContent closeDrawer={props.closeDrawer} />
     </Drawer>
   </header>
 );

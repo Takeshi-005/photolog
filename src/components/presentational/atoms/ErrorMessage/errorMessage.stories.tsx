@@ -4,7 +4,8 @@ import Component from '.';
 
 export default {
   title: 'atoms/ErrorMessage',
-  component: Component
+  component: Component,
+  parameters: { fileName: __filename }
 };
 
 export const ErrorMessage = () => (

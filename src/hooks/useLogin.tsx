@@ -1,50 +1,35 @@
 import React from 'react';
-import firebase from '../Firebase';
+import { auth } from '../Firebase';
 
 const useLogin = () => {
-  const [isLoading, setisLoading] = React.useState(false);
+  const handleLogin = React.useCallback(
+    async (email: string, password: string) => {
+      await auth
+        .signInWithEmailAndPassword(
+          email.toString().trim(),
+          password.toString().trim()
+        )
+        .catch(function(error) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(`${errorCode}${errorMessage}`);
 
-  const handleLogin = React.useCallback((email: string, password: string) => {
-    setisLoading(true);
-    console.log(email);
-    console.log(password);
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(
-        email.toString().trim(),
-        password.toString().trim()
-      )
-      .then(() => {
-        setisLoading(false);
-      })
-      .catch(function(error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`${errorCode}${errorMessage}`);
-        setisLoading(false);
-
-        throw new Error(error);
-      });
-  }, []);
+          throw new Error(error);
+        });
+    },
+    []
+  );
 
   const handleLogout = React.useCallback(() => {
-    setisLoading(true);
-
-    firebase
-      .auth()
+    auth
       .signOut()
-      .then(() => {
-        setisLoading(false);
-      })
+      .then(() => {})
       .catch(function(error) {
-        setisLoading(false);
         throw new Error(error);
       });
   }, []);
 
   return {
-    isLoading,
     handleLogin,
     handleLogout
   };

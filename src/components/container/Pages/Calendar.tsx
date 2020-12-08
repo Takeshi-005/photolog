@@ -6,7 +6,7 @@ import Modal from 'components/container/organisms/dateModal';
 import useModal, { State } from 'hooks/useModal';
 import useCalendar from 'hooks/useCalendar';
 import { COLOR } from 'styles/style';
-import Button from 'components/presentational/atoms/Button';
+import Button from 'components/presentational/atoms/Button/Simple';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import moment from 'moment';
@@ -69,10 +69,10 @@ export const Component: React.FC<Props> = props => (
     <div className={props.className}>
       <div className="head">
         <div className="box">
-          <PrevButton types="simple" handleClick={props.handlePrev}>
+          <PrevButton handleClick={props.handlePrev}>
             <ArrowLeftIcon />
           </PrevButton>
-          <NextButton types="simple" handleClick={props.handleNext}>
+          <NextButton handleClick={props.handleNext}>
             <ArrowRightIcon />
           </NextButton>
           <h1>

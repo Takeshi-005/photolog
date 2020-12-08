@@ -22,18 +22,18 @@ type Props = ContainerProps & {
 //
 // @ Component
 const Component: React.FC<Props> = React.memo(props => (
-  <div className={props.className}>
+  <StyledComponent {...props}>
     <div className="content" style={props.animateStyle}>
       {props.children}
     </div>
     <div className="overlay" onClick={props.handleClick}></div>
-  </div>
+  </StyledComponent>
 ));
 
 //______________________________________________________
 //
 // @ AnimatedComponent
-const AnimatedComponent: React.FC<ContainerProps> = props => {
+export const AnimatedComponent: React.FC<ContainerProps> = props => {
   return (
     <Transition
       config={{ duration: 200 }}
@@ -63,7 +63,7 @@ const AnimatedComponent: React.FC<ContainerProps> = props => {
 //______________________________________________________
 //
 // @ StyledComponent
-export default styled(AnimatedComponent)`
+const StyledComponent = styled.div<Props>`
   background: rgba(0, 0, 0, 0.7);
   height: 100%;
   display: flex;
@@ -97,3 +97,5 @@ export default styled(AnimatedComponent)`
     z-index: 99;
   }
 `;
+
+export default AnimatedComponent;

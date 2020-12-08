@@ -8,10 +8,14 @@ const useHooks = () => {
   );
 
   React.useEffect(() => {
-    // Firebase Authのメソッド。ログイン状態が変化すると呼び出される
-    firebase.auth().onAuthStateChanged(user => {
-      setCurrentUser(user);
+    const unlisten = firebase.auth().onAuthStateChanged(currentUser => {
+      currentUser ? setCurrentUser(currentUser) : setCurrentUser(null);
     });
+
+    return () => {
+      console.log('clean up');
+      unlisten();
+    };
   }, []);
 
   return {

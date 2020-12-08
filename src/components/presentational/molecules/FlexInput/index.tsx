@@ -4,16 +4,24 @@ import { COLOR } from 'styles/style';
 
 //______________________________________________________
 //
+// @ Types
+type Props = {
+  className?: string;
+  value: string;
+};
+
+//______________________________________________________
+//
 // @ Component
-const Component: React.FC<{ className?: string; value: string }> = React.memo(
-  props => <div className={props.className}>{props.children}</div>,
+export const Component: React.FC<Props> = React.memo(
+  props => <StyledComponent {...props}>{props.children}</StyledComponent>,
   (p, n) => p.value === n.value
 );
 
 //______________________________________________________
 //
 // @ StyledComponent
-export default styled(Component)`
+const StyledComponent = styled.div<Props>`
   display: flex;
   align-items: center;
 
@@ -26,3 +34,5 @@ export default styled(Component)`
     fill: ${props => (props.value ? COLOR.primary : COLOR.unselected)};
   }
 `;
+
+export default Component;

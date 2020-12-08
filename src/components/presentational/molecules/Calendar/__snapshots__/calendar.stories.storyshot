@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots molecules/Calendar Calendar 1`] = `
+<div
+  className="sc-fznyAO jQkwKf"
+>
+  <div
+    className="inner"
+  >
+    <div
+      className="sc-fzoLsD iJiugR"
+    >
+      <div>
+        日
+      </div>
+      <div>
+        月
+      </div>
+      <div>
+        火
+      </div>
+      <div>
+        水
+      </div>
+      <div>
+        木
+      </div>
+      <div>
+        金
+      </div>
+      <div>
+        土
+      </div>
+    </div>
+  </div>
+</div>
+`;

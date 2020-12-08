@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots atoms/Button Common 1`] = `
+<button
+  className="sc-AxjAm jfoAWY"
+  disabled={false}
+>
+  text
+</button>
+`;
+
+exports[`Storyshots atoms/Button Disabled 1`] = `
+<button
+  className="sc-AxjAm jfoAWY sc-AxirZ brHDcu"
+  disabled={true}
+>
+  text
+</button>
+`;
+
+exports[`Storyshots atoms/Button Primary 1`] = `
+<button
+  className="sc-AxjAm jfoAWY sc-AxiKw hxqMsE"
+  disabled={false}
+>
+  text
+</button>
+`;
+
+exports[`Storyshots atoms/Button Simple 1`] = `
+<button
+  className="sc-AxjAm jfoAWY sc-AxhCb kyBeE"
+  disabled={false}
+>
+  text
+</button>
+`;

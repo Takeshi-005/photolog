@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from 'components/presentational/atoms/Button';
+import Button from 'components/presentational/atoms/Button/Primary';
 
 //______________________________________________________
 //
@@ -24,7 +24,6 @@ const Component: React.FC<Props> = props => (
     <div className="button-area">
       <Button text="キャンセル" handleClick={props.handleCloseModal} />
       <Button
-        types="primary"
         text="ok"
         style={{
           width: '100px'

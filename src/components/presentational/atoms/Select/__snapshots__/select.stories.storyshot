@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots atoms/Select Select 1`] = `
+Array [
+  <h1>
+    セレクト
+  </h1>,
+  <div
+    className="sc-AxmLO drApTB"
+  >
+    <select
+      className="sc-AxgMl bodgec"
+      onChange={[Function]}
+    >
+      <option
+        value="value1"
+      >
+        data1
+      </option>
+      <option
+        value="value2"
+      >
+        data2
+      </option>
+      <option
+        value="value3"
+      >
+        data3
+      </option>
+    </select>
+  </div>,
+]
+`;

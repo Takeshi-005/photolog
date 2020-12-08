@@ -9,10 +9,11 @@ import DateInput from './DateInput';
 import ImgPreview from './ImgPreview';
 import ConfirmModal from './ConfirmModal';
 import Modal from 'components/presentational/molecules/Modal';
-import Input from 'components/presentational/atoms/Input';
+import Input from 'components/presentational/atoms/Input/Flat';
 import Select from 'components/presentational/atoms/Select';
 import InputFile from 'components/presentational/atoms/InputFile';
-import Button, { BUTTON_TYPE } from 'components/presentational/atoms/Button';
+import Primary from 'components/presentational/atoms/Button/Primary';
+import Disabled from 'components/presentational/atoms/Button/Disabled';
 import AlbumIcon from '@material-ui/icons/Album';
 import RoomIcon from '@material-ui/icons/Room';
 import LinkIcon from '@material-ui/icons/Link';
@@ -206,7 +207,9 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
           handleChange={props.handleChange}
           handleDelete={props.handleDelete}
           name={formName.title}
-          modifier={['big']}
+          style={{
+            fontSize: '18px'
+          }}
         />
         <div className="inner">
           <DateContainer>
@@ -234,7 +237,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.place}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.price}>
@@ -245,7 +247,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.price}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.url}>
@@ -256,7 +257,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.url}
-              modifier={['flat']}
             />
           </FlexInput>
           <FlexInput value={props.values.description}>
@@ -267,7 +267,6 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
               handleChange={props.handleChange}
               handleDelete={props.handleDelete}
               name={formName.description}
-              modifier={['flat']}
             />
           </FlexInput>
           <div className="photo-box">
@@ -285,16 +284,19 @@ const Component = React.forwardRef<HTMLInputElement, Props>((props, ref) => (
           </div>
         </div>
         <div className="bottom">
-          <Button
-            text="保存する"
-            types={
-              `${
-                props.values.title !== '' ? 'primary' : 'disabled'
-              }` as keyof typeof BUTTON_TYPE
-            }
-            style={{ width: '100px' }}
-            handleClick={props.handleSubmit}
-          />
+          {props.values.title !== '' ? (
+            <Primary
+              text="保存する"
+              style={{ width: '100px' }}
+              handleClick={props.handleSubmit}
+            />
+          ) : (
+            <Disabled
+              text="保存する"
+              style={{ width: '100px' }}
+              handleClick={props.handleSubmit}
+            />
+          )}
         </div>
       </div>
     </Modal>

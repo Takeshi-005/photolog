@@ -3,7 +3,8 @@ import Component from '.';
 
 export default {
   title: 'atoms/Select',
-  component: Component
+  component: Component,
+  parameters: { fileName: __filename }
 };
 
 const options = {
