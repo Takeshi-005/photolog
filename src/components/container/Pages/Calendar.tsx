@@ -5,7 +5,6 @@ import Calendar from 'components/presentational/molecules/Calendar';
 import Modal from 'components/container/organisms/dateModal';
 import useModal, { State } from 'hooks/useModal';
 import useCalendar from 'hooks/useCalendar';
-import useLogin from 'hooks/useLogin';
 import { COLOR } from 'styles/style';
 import Button from 'components/presentational/atoms/Button';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
@@ -28,7 +27,6 @@ type Props = ContainerProps & {
   handleNext: () => void;
   handlePrev: () => void;
   selectedDate: Date;
-  handleLogout: () => void;
 };
 
 // ______________________________________________________
@@ -38,7 +36,6 @@ const Container: React.FC<ContainerProps> = props => {
   const { dates, currents, handleNext, handlePrev } = useCalendar();
   const { openModal, closeModal, modalState } = useModal(false);
   const [selectedDate, setCurrent] = React.useState(new Date());
-  const { handleLogout } = useLogin();
 
   const handleOpenModal = React.useCallback((date: Date) => {
     setCurrent(date);
@@ -60,7 +57,6 @@ const Container: React.FC<ContainerProps> = props => {
       handleNext={handleNext}
       handlePrev={handlePrev}
       selectedDate={selectedDate}
-      handleLogout={handleLogout}
     />
   );
 };
@@ -82,9 +78,6 @@ export const Component: React.FC<Props> = props => (
           <h1>
             {props.currents.year}年 {props.currents.month + 1}月
           </h1>
-        </div>
-        <div className="logout">
-          <Button handleClick={props.handleLogout} text="ログアウト" />
         </div>
       </div>
       <Calendar

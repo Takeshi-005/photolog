@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Props as DrawerProps } from 'hooks/useDrawer';
 import { Link } from 'react-router-dom';
 import { PAGE_PATH } from 'constants/path';
 import { COLOR } from 'styles/style';
@@ -9,7 +8,7 @@ import { useAuth } from 'hooks/useAuth/provider';
 //______________________________________________________
 //
 // @ Types
-type ContainerProps = DrawerProps & {
+type ContainerProps = {
   className?: string;
 };
 
